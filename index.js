@@ -271,3 +271,74 @@ function deleteMinFromHeap(arr) {
   const minVal = deleteMinFromHeap(minHeap2);
 //   console.log(" DELETE THE 1 (ROOT VAL) OF HEAP --->", minHeap2); // Output: [3, 5, 8]
 //   console.log("Deleted Min Value:", minVal); // Output: Deleted Min Value: 1
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var SeatManager = function(n) {
+    this.seats = n
+
+    const seatArr = []
+    for(let i = 1; i <= this.seats; i++) {
+      seatArr.push([i])
+    }
+    this.seatArr = seatArr
+};
+
+/**
+ * @return {number}
+ */
+SeatManager.prototype.reserve = function() {
+  if(this.seatArr.length === 0) return null;
+  if(this.seatArr.length === 1) return this.seatArr.pop()[0]
+
+  const minVal = this.seatArr[0][0]
+  this.seatArr[0] = this.seatArr.pop()
+
+  let i = 0;
+
+  while(true) {
+    let smallest = i
+
+    const leftChild = 2 * i + 1
+    const rightChild = 2 * i + 2
+
+    if(rightChild < this.seatArr.length && this.seatArr[rightChild][0] < this.seatArr[smallest][0]) {
+      smallest = rightChild
+    }
+
+    if(leftChild < this.seatArr.length && this.seatArr[leftChild][0] < this.seatArr[smallest][0]) {
+      smallest = leftChild
+    }
+
+    if(smallest !== i) {
+      [ this.seatArr[i], this.seatArr[smallest] ] = [ this.seatArr[smallest], this.seatArr[i] ]
+      i = smallest
+    } else {
+      break;
+    }
+
+  }
+
+  return minVal;
+};
+
+/**
+ * @param {number} seatNumber
+ * @return {void}
+ */
+SeatManager.prototype.unreserve = function(seatNumber) {
+  this.seatArr.push([seatNumber])
+  let i = this.seatArr.length - 1
+
+  while( i > 0 && this.seatArr[i][0] < this.seatArr[Math.floor((i - 1) / 2)][0] ) {
+    [ this.seatArr[i], this.seatArr[Math.floor((i - 1) / 2)] ] = [ this.seatArr[Math.floor((i - 1) / 2)], this.seatArr[i] ]
+    i = Math.floor((i - 1) / 2)
+  }
+
+};
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
