@@ -276,6 +276,10 @@ function deleteMinFromHeap(arr) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+// https://i.gyazo.com/d8be670e2fd8b6175d9a0f07789c5980.png
+
+
 var SeatManager = function(n) {
     this.seats = n
 
@@ -342,3 +346,37 @@ SeatManager.prototype.unreserve = function(seatNumber) {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// https://i.gyazo.com/ee32368d115f6798436c1fbfdf66f0e3.png
+
+
+/**
+ * @param {number} k
+ * @param {number[]} nums
+ */
+var KthLargest = function(k, nums) {
+    this.k = k
+    this.nums = nums
+};
+
+// const obj1 = new KthLargest(10, [2,3,4,5,6])
+// console.log("TEST", obj1)
+
+/**
+ * @param {number} val
+ * @return {number}
+ */
+KthLargest.prototype.add = function(val) {
+
+    this.nums.push(val)
+    const sortedNums = this.nums.sort((a,b) => b - a)
+
+    // console.log(sortedNums)
+    return sortedNums[this.k - 1]
+};
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * var obj = new KthLargest(k, nums)
+ * var param_1 = obj.add(val)
+ */
