@@ -92,3 +92,76 @@ var setZeroes = function(matrix) {
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 
+// https://i.gyazo.com/4ad6b7da98307bd2e01f714fda31cbcd.png
+
+function getLargestNumber(num) {
+    // Write your code here
+    // try a bubble sort where the swap condition is if i and i+1 are both odd or even can swap, and swap if i + 1 is larger than i
+
+    const isEven = (num) => {
+        if(num % 2 === 0) return true
+        return false
+    }
+
+    const isOdd = (num) => {
+        if(num % 2 !== 0) return true
+        return false
+    }
+
+    let numArr = num.split("")
+    for(let i = numArr.length - 1; i > 0; i--) {
+        for(let j = 0; j < i; j++) {
+            if(isEven(numArr[j]) && isEven(numArr[j+1])) {
+                // console.log("OK")
+                if(numArr[j+1] > numArr[j]) {
+                    let second = numArr[j+1]
+                    numArr[j+1] = numArr[j]
+                    numArr[j] = second
+                }
+            } else if(isOdd(numArr[j]) && isOdd(numArr[j+1])) {
+                // console.log("OK 2")
+                if(numArr[j+1] > numArr[j]) {
+                    let second = numArr[j+1]
+                    numArr[j+1] = numArr[j]
+                    numArr[j] = second
+                }
+            }
+        }
+    }
+
+    return numArr.join("")
+
+}
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+// https://i.gyazo.com/967fcafe45d88112c074d2c9b20cb3a7.png
+
+function maxEnergy(mat) {
+
+    let consumption = 100
+    for(let i = 0; i < 2; i++) {
+
+        let currConsumption = Infinity
+
+        let subArr = mat[i]
+        for(let j = 0; j < subArr.length; j++) {
+            // directly down
+            if(subArr[j] + mat[i + 1][j] < currConsumption) currConsumption = ( subArr[j] + mat[i + 1][j] )
+            // left
+            if(mat[i + 1][j - 1]) {
+                if(subArr[j] + mat[i + 1][j - 1] < currConsumption) currConsumption = ( subArr[j] + mat[i + 1][j - 1] )
+            }
+            // right
+            if(mat[i + 1][j + 1]) {
+                if(subArr[j] + mat[i + 1][j + 1] < currConsumption) currConsumption = ( subArr[j] + mat[i + 1][j + 1] )
+            }
+        }
+        consumption -= currConsumption
+
+    }
+
+    return consumption
+
+}
