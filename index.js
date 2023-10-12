@@ -212,3 +212,62 @@ function insertMinHeap(arr, value) {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function deleteMinFromHeap(arr) {
+
+    if (arr.length === 0) {
+      return null; // Heap is empty
+    }
+
+    if (arr.length === 1) {
+      return arr.pop(); // If there's only one element, simply remove and return it
+    }
+
+
+    const minValue = arr[0]; // The minimum value is at the root, CAN ONLY REMOVE ROOT ELEMENT IN A HEAP
+    arr[0] = arr.pop(); // Replace the root with the last element, then move down the tree to find where to place by swapping with smallest child each iteration until parent is smaller than both children
+
+    let i = 0; // start idx pointer at root at work way down tree
+
+    while (true) {
+      let smallest = i; // declare a smallest pointer to see if idx got swapped, if so, the loop will continue down the tree to make more swaps (on first iteration, idx pointer = position of target node)
+                        // on the next iterations, it will represent the position of the child we swapped with. continue until this pointer doesn't get re-assigned on an iteration (placement found)
+      const leftChild = 2 * i + 1; // equation to find leftChild from parent idx pointer
+      const rightChild = 2 * i + 2; // equation to find rightChild from parent idx pointer
+
+      if (leftChild < arr.length && arr[leftChild] < arr[smallest]) { // if the left child is present in the tree, and leftChild is less < smallest idx, we will change smallest to be the idx pointer of leftChild
+        smallest = leftChild;
+      }
+
+      if (rightChild < arr.length && arr[rightChild] < arr[smallest]) { // if the right child is present in the tree, and rightChild is < than smallest idx, we will change smallest to be the idx pointer of rightChild
+        smallest = rightChild;
+      }
+
+      if (smallest !== i) { // see if idx pointers are different on this iteration (if true, a swap will be made)
+        [arr[i], arr[smallest]] = [arr[smallest], arr[i]]; // Swap the elements
+        i = smallest; // set the i pointer to smallest (the idx pointer of the child node that we swapped with)
+      } else {
+        break; // if the idx pointers are the same, a swap does not need to be made, and the tree is sorted, so we can break from the loop
+      }
+    }
+
+    return minValue;
+  }
+
+  // Example usage:
+  const minHeap2 = [];
+  insertMinHeap(minHeap2, 5);
+  insertMinHeap(minHeap2, 3);
+  insertMinHeap(minHeap2, 8);
+  insertMinHeap(minHeap2, 1);
+  insertMinHeap(minHeap2, 2);
+  insertMinHeap(minHeap2, 50);
+  insertMinHeap(minHeap2, 7);
+  insertMinHeap(minHeap2, 6);
+
+//   console.log(" STARTING HEAP --->", minHeap2); // Output: [1, 2, 7, 5, 3, 50, 8, 6]
+
+  const minVal = deleteMinFromHeap(minHeap2);
+//   console.log(" DELETE THE 1 (ROOT VAL) OF HEAP --->", minHeap2); // Output: [3, 5, 8]
+//   console.log("Deleted Min Value:", minVal); // Output: Deleted Min Value: 1
