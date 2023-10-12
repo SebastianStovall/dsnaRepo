@@ -165,3 +165,50 @@ function maxEnergy(mat) {
     return consumption
 
 }
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// /* Heaps */
+
+// // left child: i * 2 + 1
+// // right child: i * 2 + 2
+// // parent: Math.floor((i - 1) / 2)
+
+
+function insertMinHeap(arr, value) {
+    arr.push(value); // push the value onto the heap
+
+    let i = arr.length - 1; // start the index pointer at the end of the heap (to represent the idx and value of the insertion node)
+
+    while (i > 0 && arr[i] < arr[Math.floor((i - 1) / 2)]) { // while idx pointer is not the root node (if root node, no swaps possible... tree/heap is sorted) and the insertion node is LESS THAN parent node...
+        let parentIndex = Math.floor((i - 1) / 2); // this equation is the same one used in while condition, it represents the index of the parent node
+
+        [arr[i], arr[parentIndex]] = [arr[parentIndex], arr[i]]; // Swap with insertion node with the parent node (make your way up the tree to determine where insertion node is placed)
+        i = parentIndex; // set up the new index of the insertion node to become the parent idx so its ready for the next iteration in the loop
+    }
+}
+
+  // Example usage:
+  const minHeap = [];
+  insertMinHeap(minHeap, 5);
+  insertMinHeap(minHeap, 3);
+  insertMinHeap(minHeap, 8);
+  insertMinHeap(minHeap, 1);
+
+//   console.log(minHeap); // Output: [1, 3, 8, 5]
+
+  insertMinHeap(minHeap, 2)
+  insertMinHeap(minHeap, 50)
+  insertMinHeap(minHeap, 7)
+  insertMinHeap(minHeap, 6)
+
+//   console.log(minHeap); // Output: [1, 2, 7, 5, 3, 50, 8, 6]
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
