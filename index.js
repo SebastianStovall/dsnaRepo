@@ -380,3 +380,105 @@ KthLargest.prototype.add = function(val) {
  * var obj = new KthLargest(k, nums)
  * var param_1 = obj.add(val)
  */
+
+
+
+
+function permute(arr) {
+  if (arr.length === 0) {
+    return [[]];
+  }
+
+  const firstElement = arr[0];
+  const restOfArray = arr.slice(1);
+
+  const permutationsWithoutFirst = permute(restOfArray); // ask yourself, what is the return of permutate([2,3]) call? ---> callstacks = [3] and [], which generate [[2,3], [3,2]] (these permutes get used in our loop)
+                                                                              // permute([]) = []...   permute[3] = [[3]]...    so call to permute([2,3]) = [[2,3], [3,2]]
+                                                        // take the value of permute[2,3] and use it to solve permute[1,2,3] is what is happening here
+  const allPermutations = [];
+
+  for (const smallerPermutation of permutationsWithoutFirst) {
+    for (let i = 0; i <= smallerPermutation.length; i++) { // iterates through each element of smaller permutation ALL THE WAY UP TO LENGTH (so if perm = [2,3], 3 iterations ---> i = 0, i = 1, i = 2)
+      const permutation = [...smallerPermutation.slice(0, i), firstElement, ...smallerPermutation.slice(i)];
+      allPermutations.push(permutation);
+    }
+  }
+
+  return allPermutations;
+}
+
+const array = [2,3];
+const result = permute(array);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+var maxAreaOfIsland = function(grid) {
+
+  let count = 0;
+  let maxIsland = 0;
+
+  let visited = new Set()
+
+  for(let r = 0; r < grid.length; r++) {
+      const row = grid[r]
+      for(let c = 0; c < row.length; c++) {
+          const ele = row[c]
+          if(ele === 1) {
+              let coords = [r,c]
+              visited.add(coords.toString())
+              const queue = [coords]
+
+              while(queue.length >= 1) {
+
+                  const curr = queue.shift()
+                  const [row, col] = curr
+                  count++
+
+                  const neighbors = getNeighbors(grid, row, col)
+                  for(let neighbor of neighbors) {
+                      if(!visited.has(neighbor.toString())) {
+                          visited.add(neighbor.toString())
+                          queue.push(neighbor)
+                      }
+                  }
+              }
+
+              if(count > maxIsland) {
+                  maxIsland = count
+                  count = 0
+              } else {
+                  count = 0
+              }
+
+          }
+      }
+  }
+  return maxIsland
+};
+
+
+
+function getNeighbors(matrix, row, col) {
+  // up down left right only
+  const neighbors = []
+
+  if( row < matrix.length - 1 && matrix[row + 1][col] === 1) {
+      neighbors.push([row + 1, col])
+  }
+
+  if( row > 0 && matrix[row - 1][col] === 1) {
+      neighbors.push([row - 1, col])
+  }
+
+  if( col > 0 && matrix[row][col - 1] === 1) {
+      neighbors.push([row, col - 1])
+  }
+
+  if( col < matrix[0].length - 1 && matrix[row][col + 1] === 1) {
+      neighbors.push([row, col + 1])
+  }
+
+  return neighbors
+}
