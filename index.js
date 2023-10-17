@@ -701,3 +701,50 @@ var pacificAtlantic = function(heights) {
 
   return result
 };
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// 994 ---> ROTTING ORANGES (INFECTION MATRIX SPREAD USING LEVELS TO SPREAD INFECTION)
+
+  // https://i.gyazo.com/03e8f1fdc90f7dcec54d852e3ac6468b.png
+
+
+  var orangesRotting = function(grid) {
+
+    minutes = 0;
+    let totalFreshCount = 0
+
+    const queue = []
+
+    for(let r = 0; r < grid.length; r++) {
+        const row = grid[r]
+        for(let c = 0; c < row.length; c++) {
+            if(grid[r][c] === 1 ) totalFreshCount++
+            if(grid[r][c] === 2 ) queue.push([r,c])
+        }
+    }
+
+    if(totalFreshCount === 0) return 0
+
+    while(queue.length >= 1) {
+        const level = queue.length
+        for(let i = 0; i < level; i++) { // process and run infection of all remaining infected oranges (this is how the infection spreads rapidly)
+            const [row, col] = queue.shift()
+            const neighbors = getNeighbors(grid, row, col)
+            for(let n of neighbors) {
+                grid[n[0]][n[1]] = 2; // mark the fresh oranges as infected, and then push them to the queue to be processed in the next level of infection
+                totalFreshCount-- // decrement the fresh orange count
+                queue.push(n)
+            }
+
+        }
+        minutes++ // after each ROUND of infection, increment the minute counter
+    }
+
+    return totalFreshCount === 0 ? minutes - 1 : -1; // if all oranges were infected, return the minutes, else return -1 because infection didnt hit all fresh oranges
+};
