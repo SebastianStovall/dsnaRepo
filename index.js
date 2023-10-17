@@ -482,3 +482,222 @@ function getNeighbors(matrix, row, col) {
 
   return neighbors
 }
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// var pacificAtlantic = function(heights) {
+//   // divide the matrix in half
+//   // half1 = Pacific Ocean
+//   // half 2 = Atlantic Ocean
+
+//   // return squares that touch have touched both oceans by the time they have completed there flow
+//   // a square can flow into another square if that square is up,down,left,right of it and is LESS THAN OR EQUAL TO THE SQUARE
+//   // if a square is on a border, it must cross to the other side, JUST BECAUSE ITS ON A BORDER DOESNT MEAN ITS TRAVELED BOTH OCEANS
+
+//   // PSEUDOCODE
+
+//   // traverse each square and perform DFT on the square to determine if the flow touches both oceans
+//   // find all neighbors that meet water level criteria of the current square your looking at
+//   // if the flow has touched both oceans, add the coordinates to a result array
+
+//   // to determine the border ----> find the midpoint of the matrix, then keep going UP and RIGHT + LEFT and DOWN til you reach
+//   // the points of matrix[0] (up and right) AND matrix[matrix.length - 1] (down and left)
+//   // use the coordinates of the border to determine if the flow has crossed oceans
+//   // reference the coordinates for the current square, and compare those coordinates to the border coordinates in that same row
+
+//   // numOfSquares = matrix[0].length * matrix.length
+//   // to find index of midpoint ---->  Math.floor(numOfSquares / 2)
+
+//   if(heights.length === 1 && heights[0].length === 1) return [[0,0]]
+
+//   let resultCoords = new Set()
+
+//   // Calculate the number of rows and columns
+//   const numRows = heights.length;
+//   const numColumns = heights[0].length; // Assuming all rows have the same number of columns
+
+//   // Calculate the midpoint index coordinates
+//   let rowAtIndex = Math.floor(numRows / 2);
+//   let columnAtIndex = Math.floor(numColumns / 2);
+
+//   const borderCoords = [[rowAtIndex, columnAtIndex, "row --->", rowAtIndex]]
+//   let rowDecrement = rowAtIndex
+//   let columnIncrement = columnAtIndex
+
+//   let rowIncrement = rowAtIndex
+//   let columnDecrement = columnAtIndex
+
+//   for(let i = rowAtIndex - 1; i >= 0; i--) {
+//     rowDecrement--;
+//     columnIncrement++;
+//     borderCoords.push([rowDecrement, columnIncrement, "row --->", i])
+//   }
+
+//   for(let i = rowAtIndex + 1; i <= heights.length - 1; i++) {
+//     rowIncrement++
+//     columnDecrement--;
+//     borderCoords.push([rowIncrement, columnDecrement, "row --->", i])
+//   }
+
+//   for(let r = 0; r < heights.length; r++) {
+//     let row = heights[r]
+//     for(let c = 0; c < row.length; c++) {
+
+//       let visited = new Set()
+
+//       let startCoords = [r,c]
+//       visited.add(startCoords.toString())
+
+//       let stack = [startCoords];
+//       let flowPaths = [];
+
+//       let borderValue = borderCoords.find((coords) => coords[3] === r)
+//       let borderColValue = borderValue[1]
+//       // console.log("CHECK COL VALUE", borderColValue)
+
+//       while(stack.length >= 1) {
+//         const curr = stack.pop()
+//         const [row, col] = curr
+
+//         const neighbors = getNeighbors(heights, row, col)
+//         for(let n of neighbors) {
+//           if(!visited.has(n.toString())) {
+//             visited.add(n.toString())
+//             flowPaths.push(n)
+//             stack.push(n)
+//           }
+
+//         }
+//       }
+//       // check border coords only for the startCoords row
+//       // if startCoords are left of border ---->  check if any flow path coords have a column value greater than border column
+//       // if startCoords are right of border ----> check if any flow path coords have a column value less than border column
+//       // if startCoords === border ---> check if any coordinate is adjacent to startCoords in flowPath array
+//       for(let coords of flowPaths) {
+//         const [row, col] = coords
+//         const startColumn = startCoords[1]
+
+//         if(startColumn < borderColValue) {
+//           if(col > borderColValue) resultCoords.add(startCoords.toString())
+//         }
+
+//         if(startColumn > borderColValue) {
+//           if(col < borderColValue) resultCoords.add(startCoords.toString())
+//         }
+
+//         if(startColumn === borderColValue) {
+//             // const currIndex = ( heights[0].length * r + c );
+//             const neighbors = getNeighbors(heights, borderValue[0], borderValue[1])
+//             if(neighbors.length !== 0) resultCoords.add(startCoords.toString())
+//         }
+
+//       }
+
+//     }
+
+//   }
+
+//   const finalResult = []
+//   for(let coord of resultCoords) {
+//     const [row, comma, column] = coord
+//     finalResult.push([Number(row), Number(column)])
+//   }
+//   return finalResult
+// };
+
+
+// function getNeighbors(matrix, row, col) {
+//   // up down left right only
+//   const neighbors = []
+//   const waterHeight = matrix[row][col]
+
+//   // down
+//   if( row < matrix.length - 1 && matrix[row + 1][col] <= waterHeight) {
+//       neighbors.push([row + 1, col])
+//   }
+
+//   // up
+//   if( row > 0 && matrix[row - 1][col] <= waterHeight) {
+//       neighbors.push([row - 1, col])
+//   }
+
+//   // left
+//   if( col > 0 && matrix[row][col - 1] <= waterHeight) {
+//       neighbors.push([row, col - 1])
+//   }
+
+//   // right
+//   if( col < matrix[0].length - 1 && matrix[row][col + 1] <= waterHeight) {
+//       neighbors.push([row, col + 1])
+//   }
+
+//   return neighbors
+// }
+
+
+// const heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]
+// console.log("LOOOOOOOOOOOK", pacificAtlantic(heights))
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// https://i.gyazo.com/f1cfe569b8be2240b753dfcf21cfd1c9.png
+
+var pacificAtlantic = function(heights) {
+
+  const result = []
+
+  for(let r = 0; r < heights.length; r++) {
+    let row = heights[r]
+    for(let c = 0; c < row.length; c++) {
+
+      let visited = new Set()
+
+      let startCoords = [r,c]
+      visited.add(startCoords.toString())
+
+      let stack = [startCoords];
+
+      let touchedAtlBottom = false
+      let touchedAtlRight = false
+      let touchedPacTop = false
+      let touchedPacLeft = false
+
+      while(stack.length >= 1) {
+        const curr = stack.pop()
+        const [row, col] = curr
+
+        if(row === heights.length - 1) touchedAtlBottom = true
+        if(col === heights[0].length - 1) touchedAtlRight = true
+        if(row === 0) touchedPacTop = true
+        if(col === 0) touchedPacLeft = true
+
+        const neighbors = getNeighbors(heights, row, col)
+        for(let n of neighbors) {
+          if(!visited.has(n.toString())) {
+            visited.add(n.toString())
+            stack.push(n)
+          }
+
+        }
+      }
+
+      if( (touchedAtlBottom && touchedPacTop) ||
+          (touchedAtlBottom && touchedPacLeft) ||
+          (touchedAtlRight && touchedPacTop) ||
+          (touchedAtlRight && touchedPacLeft)
+       ) {
+          result.push(startCoords)
+       }
+
+    }
+
+  }
+
+  return result
+};
