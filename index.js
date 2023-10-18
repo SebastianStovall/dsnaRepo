@@ -838,3 +838,34 @@ var isBipartite = function(graph) {
 
   return true
 };
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// https://i.gyazo.com/1877a8d60723f699b05d0684cf0e926a.png
+
+var climbStairs = function(n, memo = {}) {
+  // Check if the result for 'n' is already memoized
+  if (n in memo) {
+      return memo[n];
+  }
+
+  // Base cases
+  if (n === 1) {
+      return 1; // Only 1 way to climb 1 step (base case)
+  }
+
+  if (n === 2) {
+      return 2; // Only 2 ways to climb 2 steps (base case)
+  }
+
+  // Calculate the number of ways to climb 'n' steps by recursively
+  // calculating 'n-1' and 'n-2' steps, and memoizing the result.
+  const ways = climbStairs(n - 1, memo) + climbStairs(n - 2, memo);
+
+  // Store the result in the 'memo' object for future use, so it's remembered
+  // whenever 'climbStairs' is called with the same 'n' value in the future.
+  memo[n] = ways;
+
+  return ways;
+};
