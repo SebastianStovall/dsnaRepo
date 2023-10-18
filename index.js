@@ -748,3 +748,61 @@ var pacificAtlantic = function(heights) {
 
     return totalFreshCount === 0 ? minutes - 1 : -1; // if all oranges were infected, return the minutes, else return -1 because infection didnt hit all fresh oranges
 };
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// https://i.gyazo.com/ff26ae688c26a3ab82aaf3118d3ad4c3.png
+
+
+var isBipartite = function(graph) {
+
+  const adjList = buildGraph(graph)
+  const set = new Set()
+
+  let totalNodeCount = 0
+  for(let i = 0; i < graph.length; i++) {
+      totalNodeCount += i
+  }
+
+  for(let key in adjList) {
+
+      let total = totalNodeCount
+      let count = Number(key);
+
+      const valArray = adjList[key]
+      for(let val of valArray) {
+          count += val
+      }
+
+      let missingVal = total - count;
+      set.add( [Number(key), missingVal].toString() )
+      set.add( [missingVal, Number(key)].toString() )
+  }
+
+  return set.size === 4
+};
+
+
+
+
+function buildGraph(edgeList) {
+const adjacencyList = {};
+
+// Iterate through each edge in the edgeList
+for (let i = 0; i < edgeList.length; i++) {
+  const vertex = i; // Each vertex is represented by its index in the edgeList
+  const edges = edgeList[i];
+
+  // Create an empty array for the current vertex in the adjacency list
+  adjacencyList[vertex] = [];
+
+  // Iterate through the edges connected to the current vertex
+  for (const edge of edges) {
+    adjacencyList[vertex].push(edge);
+  }
+}
+
+return adjacencyList
+}
