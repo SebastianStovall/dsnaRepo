@@ -806,3 +806,35 @@ for (let i = 0; i < edgeList.length; i++) {
 
 return adjacencyList
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// https://i.gyazo.com/ff26ae688c26a3ab82aaf3118d3ad4c3.png
+
+
+var isBipartite = function(graph) {
+
+  const color = new Array(graph.length).fill(0) // color array that represents the structure of a biparite graph (keeps track of colors)
+
+  for(let i = 0; i < color.length; i++) {
+      if(color[i] === 0) { // if node is uncolored, color it as 1 or -1 (kind of acts as visited as well, will only go if un-colored)
+          const queue = [i] // push the colored node to the queue
+          color[i] = 1
+
+          while(queue.length >= 1) {
+              const node = queue.shift()
+              for(let neighbor of graph[node]) { // iterate through the node's neighbor and check their colors
+                  if(color[neighbor] === 0) { // if neighbor is uncolored...
+                      color[neighbor] = -color[node] // THEN, make the neighbor's of that node the opposite color
+                      queue.push(neighbor) // traverse the neighbors and check their colors
+                  } else if(color[node] === color[neighbor]) { // if the neighbor already has a color, and its the same color, return false
+                      return false
+                  }
+              }
+          }
+      }
+  }
+
+  return true
+};
