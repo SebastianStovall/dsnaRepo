@@ -869,3 +869,39 @@ var climbStairs = function(n, memo = {}) {
 
   return ways;
 };
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// https://leetcode.com/problems/coin-change/
+
+
+var coinChange = function(coins, amount) {
+  const arr = new Array(amount + 1).fill(amount + 1)
+  arr[0] = 0
+
+  for(const coin of coins) {
+      // console.log("COIN", coin)
+      for (let i = coin; i <= amount; i++) {
+          // console.log("I", i)
+          arr[i] = Math.min(arr[i], arr[i - coin] + 1)
+      }
+  }
+  return arr[amount] > amount ? -1 : arr[amount]
+};
+
+
+// for the first coint in coins array, our "arr" will capture the minumum required amount to reach the target amount
+  // ex ---> arr after COIN 1 ---------->   [0,1,2,3,4,5,6,7,8,9,10,11]
+  //                                                  |
+  //                                                  |
+  //           this process repeats for COIN 2.  THe second coin can now use this arr as a comparison to find min amount of coins required
+
+  // if by the time the loop ends, and arr[amount] value is greater than the target amount, a combination does not exist, so return -1
+
+
+
+
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
