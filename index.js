@@ -905,3 +905,82 @@ var coinChange = function(coins, amount) {
 
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+  // https://leetcode.com/problems/add-two-numbers/submissions/
+
+
+  var addTwoNumbers = function(l1, l2) {
+
+    const result = []
+    const l1Vals = []
+    const l2Vals = []
+
+    while(l1 !== null) {
+        l1Vals.push(l1.val)
+        l1 = l1.next
+    }
+    while(l2 !== null) {
+       l2Vals.push(l2.val)
+        l2 = l2.next
+    }
+
+    const longest = Math.max(l1Vals.length, l2Vals.length)
+    const shortest = Math.min(l1Vals.length, l2Vals.length)
+
+    if(shortest !== longest) {
+        const fill = longest - shortest
+
+        if(l1Vals.length !== longest) {
+            for(let i = 0; i < fill; i++) {
+                l1Vals.push(0)
+            }
+
+        } else {
+            for(let i = 0; i < fill; i++) {
+                l2Vals.push(0)
+            }
+        }
+    }
+
+    for(let i = 0; i < longest; i++) {
+
+        const sum = l1Vals[i] + l2Vals[i]
+        // Number(sum.toString().split("")[1])
+
+        if(i !== longest - 1) {
+
+            if(sum > 9) {
+                result.push(Number(sum.toString().split("")[1]))
+                l1Vals[i + 1]++
+            } else {
+                result.push(sum)
+            }
+
+        } else {
+
+            if(sum > 9) {
+                result.push(Number(sum.toString().split("")[1]))
+                result.push(Number(sum.toString().split("")[0]))
+            } else {
+                result.push(sum)
+            }
+
+        }
+
+    }
+
+    let newList = new ListNode(result.shift(), null)
+    const head = newList
+
+    while(result.length) {
+        const newListNext = new ListNode(result.shift(), null)
+        newList.next = newListNext
+        newList = newList.next
+
+    }
+
+    newList = head
+    return newList
+
+};
