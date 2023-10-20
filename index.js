@@ -984,3 +984,30 @@ var coinChange = function(coins, amount) {
     return newList
 
 };
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// https://leetcode.com/problems/search-insert-position/description/
+
+
+var searchInsert = function(nums, target) {
+  // if on last i in loop and target hasnt been found, return nums.length
+  // if you find a nums[i] that is < target and nums[i + 1] is > than target, return nums[i + 1]
+
+  if(nums[0] > target) return 0
+
+  for(let i = 0; i < nums.length; i++) {
+      if(i !== nums.length - 1) {
+          if(nums[i] === target) return i
+          if(nums[i] < target && nums[i + 1] > target) return i + 1
+      } else {
+          if(nums[i] === target) return i
+      }
+  }
+
+  return nums.length
+};
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
