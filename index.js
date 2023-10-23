@@ -1011,3 +1011,111 @@ var searchInsert = function(nums, target) {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// function multStrings(num1, num2) {
+
+//   const obj = {
+//     48: 0,
+//     49: 1,
+//     50: 2,
+//     51: 3,
+//     52: 4,
+//     53: 5,
+//     54: 6,
+//     55: 7,
+//     56: 8,
+//     57: 9
+//   }
+
+//   let realNumOne = 0
+//   let realNumTwo = 0
+
+//   for(let i = 0; i < num1.length; i++) {
+//     let num = num1[i]
+//     const fill = Math.abs( (i + 1) - num1.length )
+
+//     let zero = ""
+//     for(let x = 0; x < fill; x++) {
+//       zero += "0"
+//     }
+
+//     let sub = obj[num.charCodeAt()]
+//     sub += zero
+
+//     const realNum = Number(sub)
+//     realNumOne += realNum
+
+//   }
+
+//   for(let i = 0; i < num2.length; i++) {
+//     let num = num2[i]
+//     const fill = Math.abs( (i + 1) - num2.length )
+
+//     let zero = ""
+//     for(let x = 0; x < fill; x++) {
+//       zero += "0"
+//     }
+
+//     let sub = obj[num.charCodeAt()]
+//     sub += zero
+
+//     const realNum = Number(sub)
+//     realNumTwo += realNum
+
+//   }
+
+//   return (realNumOne * realNumTwo).toString()
+
+// }
+
+
+// console.log("OUTPUT ", multStrings("2", "3"))
+
+
+var multiply = function(num1, num2) {
+  const obj = {
+  '0': 0n,
+  '1': 1n,
+  '2': 2n,
+  '3': 3n,
+  '4': 4n,
+  '5': 5n,
+  '6': 6n,
+  '7': 7n,
+  '8': 8n,
+  '9': 9n,
+};
+
+let realNumOne = 0n;
+let realNumTwo = 0n;
+
+for (let i = 0; i < num1.length; i++) {
+  let num = num1[i];
+  const fill = BigInt(Math.abs(i + 1 - num1.length));
+
+  let sub = obj[num];
+  sub *= 10n ** fill;
+
+  realNumOne += sub;
+}
+
+for (let i = 0; i < num2.length; i++) {
+  let num = num2[i];
+  const fill = BigInt(Math.abs(i + 1 - num2.length));
+
+  let sub = obj[num];
+  sub *= 10n ** fill;
+
+  realNumTwo += sub;
+}
+
+console.log("---------------->", realNumOne, "------------------>", realNumTwo)
+return (realNumOne * realNumTwo).toString();
+
+};
+
+// console.log("OUTPUT ", multiply("2", "3"))
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
