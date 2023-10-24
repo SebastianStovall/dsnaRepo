@@ -205,4 +205,57 @@ def findDisappearedNumbers(nums: list) -> list:
         #         result.append(i)
         # return result
 
-print("ANSWER       ", findDisappearedNumbers([1,2,5,7,9,4,6,7,5]) ) # [8,3]
+# print("ANSWER       ", findDisappearedNumbers([1,2,5,7,9,4,6,7,5]) ) # [8,3]
+
+
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+# https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
+
+
+
+def lengthOfLongestSubstring(self, s: str) -> int:
+
+        # initialize two pointers: i and j
+        # create a set to keep track of repeating characters in the string
+        # the j pointer will act as a normal pointer when iterating through the string
+
+        # the combination of the i and j pointer will define the range of non reoccuring characters, we can use this information
+        # to keep track of the longest substring
+
+        # on each iteration, one of two things will happen
+        # if s[j] not in set ---> add the letter to the set, increment the pointer, and reassign longest
+        # if s[j] in set ---> remove s[i] from the set (this process will repeat until we terminate the reoccuring character from set)
+        # we will also move the i pointer to reflect changes to the search space and the longest non-reoccuring substring along with
+        # the set
+
+        # each time s[j] is found in the set, we are updating the substring range
+
+        if len(s) == 0:
+            return 0
+
+        longest = 0
+        letterSet = set()
+
+        i = 0
+        j = 0
+
+        while i < len(s) and j < len(s):
+            if s[j] not in letterSet:
+                letterSet.add( s[j] )
+                j += 1
+                longest = max(longest, j - i)
+            else:
+                letterSet.remove( s[i] )
+                i += 1
+
+        return longest
+
+
+# print("ANSWER       ", lengthOfLongestSubstring("abcdabc") )
+
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
