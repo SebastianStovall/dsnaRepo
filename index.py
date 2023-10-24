@@ -259,3 +259,39 @@ def lengthOfLongestSubstring(self, s: str) -> int:
 
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+# https://leetcode.com/problems/longest-common-prefix/description/
+
+
+def longestCommonPrefix(strs: list) -> str:
+
+        # iterate through the list of strings
+        # have a variable called prefix
+        # the shortest element in the list will be the entire prefix to start off with
+        # when we hit the subsequent strings in the list, the prefix variable will be reassigned when letters dont match
+
+        if len(strs) == 1:
+            return strs[0]
+
+        if len(strs) == 0:
+            return ""
+
+        # sort the list by the length of the string, have prefix be the shortest string in the list
+        prefix = sorted( strs, key=lambda x: len(x) )[0]
+
+        for word in strs:
+            i = 0
+            while i < len(prefix) and i < len(word):
+                if word[i] != prefix[i]:
+                    # print("DOESNT MATCH HERE ---> ", prefix[i])
+                    listPrefix = list(prefix)
+                    prefix = "".join( listPrefix[slice(0, i)] )
+                    i = len(word) # break the loop on the next iteration, we now know the new prefix
+                else:
+                    i += 1
+        return prefix
+
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
