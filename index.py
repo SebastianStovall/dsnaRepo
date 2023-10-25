@@ -315,3 +315,36 @@ def removeElement(nums: list, val: int) -> int:
 
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# https://leetcode.com/problems/remove-duplicates-from-sorted-array/submissions/
+
+def removeDuplicates(nums: list) -> int:
+
+        # return whats left in the array
+        # set up a count with a dictionary, if count every reaches more than 1, just pop the index
+        # iterate with personal i incrementer, if count > 1 when iterating, pop and dont increase index
+
+        count = dict()
+        i = 0
+        removed = 0
+        og_len = len(nums)
+
+        while i < len(nums):
+
+            # check the count
+            if count.get(nums[i]) is None:
+                count[ nums[i] ] = 1
+            else:
+                count[ nums[i] ] += 1
+
+            # act according to the count
+            if count[ nums[i] ] > 1:
+                removed += 1
+                nums.pop(i)
+            else:
+                i += 1
+
+        return og_len - removed
+
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
