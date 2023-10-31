@@ -379,3 +379,32 @@ def spiralOrder(matrix):
 
 
 # ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# https://leetcode.com/problems/plus-one/description/?envType=featured-list&envId=top-interview-questions?envType=featured-list&envId=top-interview-questions
+
+def plusOne(digits: list) -> list:
+
+        # if the last digit is less than 9, simply increment by 1 then return
+        last_digit = digits[len(digits) - 1]
+        if last_digit < 9:
+            digits[len(digits) - 1] += 1
+            return digits
+
+        for i, num in enumerate(digits[::-1]):
+            last_index = (len(digits) - 1)
+            curr_index = (len(digits) - 1) - i
+
+            if num == 9:
+                digits[ curr_index ] = 0
+            else:
+                digits[ curr_index ] += 1
+                break
+
+            if i == last_index and digits[curr_index] == 0:
+                digits.insert(0, 1)
+                break
+
+        return digits
+
+
+# ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
