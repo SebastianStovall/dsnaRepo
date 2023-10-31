@@ -348,3 +348,34 @@ def removeDuplicates(nums: list) -> int:
 
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# https://leetcode.com/problems/spiral-matrix/description/?envType=featured-list&envId=top-interview-questions?envType=featured-list&envId=top-interview-questions
+
+def spiralOrder(matrix):
+        result = []
+        new_columns = []
+
+        while matrix:
+
+            result += matrix[0]
+            matrix.pop(0)
+
+            if len(matrix) == 0:
+                break
+
+            new_matrix = []
+            i = len(matrix[0]) - 1
+            while i >= 0:
+                for arr in matrix:
+                    print(arr, i)
+                    new_columns.append(arr[i])
+                new_matrix.append(new_columns)
+                new_columns = []
+                i -= 1
+
+            matrix = new_matrix
+
+        return result
+
+
+# ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
