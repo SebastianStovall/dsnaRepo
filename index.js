@@ -1284,3 +1284,41 @@ var rob = function(nums) {
 
   return dp[dp.length - 1]
 };
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// https://leetcode.com/problems/happy-number/
+
+var isHappy = function(n) {
+
+  const setTarget = 1000
+  let j = 0
+
+
+  try {
+
+      while(j < setTarget) {
+
+          n = n.toString()
+          let total = 0;
+
+          for(let i = 0; i < n.length; i++) {
+              let current = Number(n[i])
+              total += (current * current)
+          }
+
+          if(total === 1) return true
+          n = total
+          j += 1
+
+      }
+
+      return false
+
+  } catch(e) {
+      console.log("ERROR", e)
+      return false
+  }
+
+};
