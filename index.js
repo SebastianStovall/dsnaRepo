@@ -1205,3 +1205,25 @@ var generate = function(numRows) {
   console.log("PASCAL ---> ", pascal)
   return pascal
 };
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// https://leetcode.com/problems/single-number/
+
+
+var singleNumber = function(nums) {
+  const counter = {}
+  for(let i = 0; i < nums.length; i++) {
+      if (counter[nums[i]]) {
+          counter[nums[i]] ++
+      } else {
+          counter[nums[i]] = 1
+      }
+  }
+
+  for(let key in counter) {
+      if (counter[key] === 1) return key
+  }
+};
