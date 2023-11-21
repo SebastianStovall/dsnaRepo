@@ -1227,3 +1227,33 @@ var singleNumber = function(nums) {
       if (counter[key] === 1) return key
   }
 };
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// https://leetcode.com/problems/majority-element/
+
+var majorityElement = function(nums) {
+  const tracker = {}
+  let majorityVal = -1000
+  let majorityKey;
+
+  for(let i = 0; i < nums.length; i++) {
+      if(!tracker[nums[i]]) {
+          tracker[nums[i]] = 1
+      } else {
+          tracker[nums[i]]++
+      }
+  }
+
+  console.log(tracker)
+
+  for(let key in tracker) {
+      if(tracker[key] > majorityVal) {
+          majorityVal = tracker[key]
+          majorityKey = key
+      }
+  }
+
+  return majorityKey
+
+};
