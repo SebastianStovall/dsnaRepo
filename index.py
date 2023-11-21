@@ -412,7 +412,7 @@ def plusOne(digits: list) -> list:
 
 # https://leetcode.com/problems/spiral-matrix/
 
-def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+def spiralOrder(self, matrix: list):
         result = []
         array = []
 

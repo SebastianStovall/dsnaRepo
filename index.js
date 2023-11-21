@@ -1180,4 +1180,28 @@ console.log(parseStringToNum('12345'))
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// https://leetcode.com/problems/pascals-triangle/
 
+var generate = function(numRows) {
+  if(numRows === 1) return [[1]]
+  if(numRows === 2) return [[1], [1,1]]
+
+  const pascal = [[1], [1,1]]
+  i = 2
+  while(i < numRows) {
+      const lastRow = pascal[i - 1]
+      const nextRow = [1]
+      for(let j = 0; j < lastRow.length; j++) {
+          if(lastRow[j + 1]) {
+              const currNum = lastRow[j] + lastRow[j + 1]
+              nextRow.push(currNum)
+          }
+      }
+      nextRow.push(1)
+      pascal.push(nextRow)
+      i += 1
+  }
+
+  console.log("PASCAL ---> ", pascal)
+  return pascal
+};
