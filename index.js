@@ -1257,3 +1257,30 @@ var majorityElement = function(nums) {
   return majorityKey
 
 };
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// https://leetcode.com/problems/house-robber/
+
+var rob = function(nums) {
+  if(nums.length === 1) return nums[0]
+  if(nums.length === 2) return Math.max(nums[0], nums[1])
+
+  // make dp array to store profit ( dp[dp.length - 1] will represent the maximum profit possible)
+  const dp = new Array(nums.length)
+
+  // set the stage for the dp
+  dp[0] = nums[0] // if nums only has 1 element, max profit is the first house
+  dp[1] = Math.max(nums[0], nums[1]) // if nums has 2 elements, max profit is whichever house's value is more
+
+  // find the max profit for remaining houses on the block
+  for(let i = 2; i < nums.length; i++) {
+
+      // see if the (current house's value + previous max-profit) overrides the current maximum profit possible, if so, that becomes the
+      // new max profit
+      dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i])
+  }
+
+  return dp[dp.length - 1]
+};
