@@ -408,3 +408,32 @@ def plusOne(digits: list) -> list:
 
 
 # ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+# https://leetcode.com/problems/spiral-matrix/
+
+def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        result = []
+        array = []
+
+        while matrix:
+
+            result += matrix[0]
+            matrix.pop(0)
+
+            if len(matrix) == 0:
+                break
+
+            new_matrix = []
+            i = len(matrix[0]) - 1
+            while i >= 0:
+                for arr in matrix:
+                    print(arr, i)
+                    array.append(arr[i])
+                new_matrix.append(array)
+                array = []
+                i -= 1
+
+            matrix = new_matrix
+
+        return result

@@ -1119,3 +1119,65 @@ return (realNumOne * realNumTwo).toString();
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// https://leetcode.com/problems/unique-paths/description/?envType=featured-list&envId=top-interview-questions?envType=featured-list&envId=top-interview-questions
+
+var uniquePaths = function(m, n) {
+  const memo = buildMatrix(m,n)
+  const start = [0,0]
+  const destination = [m-1, n-1]
+
+
+  function numPaths(position, destination) {
+      const [currRow, currCol] = position
+      const [destRow, destCol] = destination
+      if(currRow === destRow && currCol === destCol) {
+          return 1
+      }
+
+      // check if out of bounds
+      if( currRow > (m - 1) || currCol > (n - 1) ) return 0
+
+      // if we already calculated # of unique from this position, return it
+      if(memo[currRow][currCol] !== 0) return memo[currRow][currCol]
+
+      // move down
+      const pathsDown = numPaths([currRow + 1, currCol], destination)
+      // move right
+      const pathsRight = numPaths([currRow, currCol + 1], destination)
+
+      // store the # of uniquePaths at this positon so it can be used later
+      // pathsDown + pathsRight is giving the final count by adding the result of the callstacks (ex: 1 + 1 + 0 + 1 + 0)
+      memo[currRow][currCol] = pathsDown + pathsRight;
+      return memo[currRow][currCol];
+  }
+
+  return numPaths(start, destination)
+
+};
+
+
+
+function buildMatrix(m,n) {
+  const matrix = new Array(m)
+  for(let i = 0; i < matrix.length; i++) {
+      matrix[i] = new Array(n).fill(0)
+  }
+  return matrix
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function parseStringToNum(string) {
+  const number = Number(string)
+  return number
+}
+console.log(parseStringToNum('12345'))
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
