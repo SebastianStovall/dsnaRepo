@@ -1322,3 +1322,38 @@ var isHappy = function(n) {
   }
 
 };
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// https://leetcode.com/problems/word-pattern/submissions/
+
+var wordPattern = function(pattern, s) {
+  const bijection = {}
+  const sArr = s.split(" ")
+
+  // if there are characters that cannot be mapped due to sizing issues, return false
+  if(pattern.length !== sArr.length) return false
+  // keeps track of what keys map to which values
+  const wordsUsed = new Set()
+
+  for(let i = 0; i < sArr.length; i++) {
+      console.log("BIJECT ", bijection)
+      if( !bijection[pattern[i]] ) {
+          bijection[pattern[i]] = sArr[i]
+
+          // checks if this word has already been mapped in the pattern, if so return false
+          if(wordsUsed.has(sArr[i])) {
+              return false
+          } else {
+              wordsUsed.add(sArr[i])
+          }
+
+      } else {
+          // if the mapping is inconsistent, return false
+          if( bijection[pattern[i]] !== sArr[i] ) return false
+      }
+  }
+
+  return true
+};
