@@ -1175,7 +1175,7 @@ function parseStringToNum(string) {
   const number = Number(string)
   return number
 }
-console.log(parseStringToNum('12345'))
+// console.log(parseStringToNum('12345'))
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1357,3 +1357,55 @@ var wordPattern = function(pattern, s) {
 
   return true
 };
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------ //
+
+function hourglassSum(arr) {
+
+    // Convert to a 3x3 matrix
+    let numRows = 6;
+    let numCols = 6;
+
+    let matrix = [];
+    for (let i = 0; i < numRows; i++) {
+        matrix.push(arr.slice(i * numCols, (i + 1) * numCols));
+    }
+    arr = matrix
+
+    function findMaxForSingleRow(matrix, row) {
+        let highestSum = 0
+        for(let i = 1; i <= 4; i++) {
+            const top = matrix[row][i - 1] + matrix[row][i] + matrix[row][i + 1]
+            const middle = matrix[row + 1][i]
+            const bottom = matrix[row + 2][i - 1] + matrix[row + 2][i] + matrix[row + 2][i + 1]
+            console.log(top, middle, bottom)
+            const totalHourGlassSum = top + middle + bottom
+            if(totalHourGlassSum > highestSum) highestSum = totalHourGlassSum
+        }
+        return highestSum
+    }
+
+    let highestSum = 0
+    for(let i = 0; i < 4; i++) {
+        const highestSumOfRow = findMaxForSingleRow(arr, i)
+        if(highestSumOfRow >= highestSum ) highestSum = highestSumOfRow
+    }
+
+    return highestSum
+
+}
+
+
+const arr = [
+1, 1, 1, 0, 0, 0,
+0, 1, 0, 0, 0, 0,
+1, 1, 1, 0, 0, 0,
+0, 0, 2, 4, 4, 0,
+0, 0, 0 ,2, 0, 0,
+0, 0, 1, 2, 4, 0
+]
+
+
+// console.log("SSSS", hourglassSum(arr))
