@@ -1409,3 +1409,23 @@ const arr = [
 
 
 // console.log("SSSS", hourglassSum(arr))
+
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+function moveZeros(nums) {
+    let left = 0
+    let right = 0
+
+    while(right < nums.length) {
+        if(nums[right] !== 0) {
+            [nums[left], nums[right]] = [nums[right], nums[left]]
+            left++
+        }
+        right++
+    }
+    return nums
+}
+
+// console.log("TEST THIS", moveZeros([0,0,0,1,0,5,12,18,10]))
