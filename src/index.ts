@@ -94,7 +94,7 @@ class MyQueue {
     }
 
     pop(): number {
-        return this.stack.shift()
+        return this.stack.shift()!
     }
 
     peek(): number {
@@ -105,3 +105,6 @@ class MyQueue {
         return this.stack.length === 0
     }
 }
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------- //
