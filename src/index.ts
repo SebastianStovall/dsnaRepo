@@ -56,3 +56,27 @@ function isAnagram(s: string, t: string): boolean {
     return true
 
 };
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/ugly-number/description/
+
+function isUgly(n: number): boolean {
+    if( n <= 0 ) return false // n must be a postive integer to be considered
+
+    while(n % 2 === 0) {  // keep dividing by the prime divisors until no longer divisible
+        n /= 2
+    }
+
+    while(n % 3 === 0) {  // keep dividing by the prime divisors until no longer divisible
+        n /= 3
+    }
+
+    while(n % 5 === 0) {  // keep dividing by the prime divisors until no longer divisible
+        n /= 5
+    }
+
+    return n === 1  // by this point, if n is not 1, then another factor must exist in order to fully simplify n... the fact that we were dividing by    prime factors ensures that the mystery factor would need to be prime
+
+};
