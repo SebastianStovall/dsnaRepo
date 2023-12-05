@@ -80,3 +80,28 @@ function isUgly(n: number): boolean {
     return n === 1  // by this point, if n is not 1, then another factor must exist in order to fully simplify n... the fact that we were dividing by    prime factors ensures that the mystery factor would need to be prime
 
 };
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/implement-queue-using-stacks/description/
+
+class MyQueue {
+    constructor(public stack: number[] = []) {
+    }
+
+    push(x: number): void {
+        this.stack.push(x)
+    }
+
+    pop(): number {
+        return this.stack.shift()
+    }
+
+    peek(): number {
+        return this.stack[0]
+    }
+
+    empty(): boolean {
+        return this.stack.length === 0
+    }
+}
