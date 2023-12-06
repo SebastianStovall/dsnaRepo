@@ -1429,3 +1429,39 @@ function moveZeros(nums) {
 }
 
 // console.log("TEST THIS", moveZeros([0,0,0,1,0,5,12,18,10]))
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+// https://leetcode.com/problems/find-the-difference/description/
+
+var findTheDifference = function(s, t) {
+    const trackS = {}
+    const trackT = {}
+
+    for(let i = 0; i < s.length; i++) {
+        if(!trackS[s[i]]) {
+            trackS[s[i]] = 1
+        } else {
+            trackS[s[i]]++
+        }
+    }
+
+    for(let i = 0; i < t.length; i++) {
+        if(!trackT[t[i]]) {
+            trackT[t[i]] = 1
+        } else {
+            trackT[t[i]]++
+        }
+    }
+
+    for(let key in trackT) {
+        if(trackS[key] === undefined) return key // if wasnt in S to begin with, return that letter
+        if(trackS[key] !== trackT[key]) return key // if values at that chracter dont match in each string, return that character
+    }
+
+};
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
