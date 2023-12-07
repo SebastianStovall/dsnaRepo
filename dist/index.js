@@ -82,19 +82,16 @@ class MyQueue {
 // https://leetcode.com/problems/first-bad-version/submissions/
 var solution = function (isBadVersion) {
     return function (n) {
-        console.log("\nn INPUT: ", n);
         let left = 0;
         let right = n + 1;
         let ans = 0;
         let flag = true;
         while (flag) {
             const midPoint = Math.floor((right + left) / 2);
-            console.log("\nMIDPOINT", midPoint);
             const isBad = isBadVersion(midPoint);
             if (isBad) {
                 // if bad (if true)
                 if (isBadVersion(midPoint - 1) === false) {
-                    console.log("\nANSWER FOUND");
                     ans = midPoint;
                     flag = false;
                 }
@@ -103,7 +100,6 @@ var solution = function (isBadVersion) {
             else {
                 // if good (if false)
                 if (isBadVersion(midPoint + 1)) {
-                    console.log("\nANSWER FOUND");
                     ans = midPoint + 1;
                     flag = false;
                 }

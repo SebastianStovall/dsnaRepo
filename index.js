@@ -1487,7 +1487,46 @@ var longestPalindrome = function(s) {
 
     }
 
-    console.log(s.length, ans)
     return s.length > ans ? ans + 1 : ans // if the ans is a substring, add a character to the middle of the string, since you can have a single odd pairing, if its already the length of the string, just return the ans since it the longest palindrome is the entire string
 
     };
+
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/keyboard-row/description/
+
+var findWords = function(words) {
+    let ans = []
+    let map = {
+        "a": 1, "b": 2, "c": 2, "d": 1, "e": 0,  // map that represents where each character resides in what row
+        "f": 1, "g": 1, "h": 1, "i": 0, "j": 1,
+        "k": 1, "l": 1, "m": 2, "n": 2, "o": 0,
+        "p": 0, "q": 0, "r": 0, "s": 1, "t": 0,
+        "u": 0, "v": 2, "w": 0, "x": 2, "y": 0,
+        "z": 2
+    };
+
+
+    words.forEach((word) => { // for each word...
+      const current = word.toLowerCase() // Convert the word to lowercase
+      let found = true
+      const row = map[ current.charAt(0) ] // Get the row of the first character in the word
+
+      for(let i = 0; i < current.length; i++) { // Iterate through each character in the word
+        if(map[current[i]] !== row) { // If the character's row doesn't match the first character's row, set the flag to false and break the loop
+          found = false
+          break // only breaks the loop that its called in
+        }
+      }
+
+      if(found) { // If the word meets the condition, push it to the ans array
+        ans.push(word)
+      }
+
+    })
+
+    return ans
+
+};

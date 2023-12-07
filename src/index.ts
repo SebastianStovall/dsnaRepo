@@ -108,7 +108,6 @@ class MyQueue {
 
 var solution = function (isBadVersion: any) {
   return function (n: number): number {
-    console.log("\nn INPUT: ", n);
     let left: number = 0;
     let right: number = n + 1;
     let ans: number = 0;
@@ -116,14 +115,12 @@ var solution = function (isBadVersion: any) {
 
     while (flag) {
       const midPoint = Math.floor((right + left) / 2);
-      console.log("\nMIDPOINT", midPoint);
       const isBad = isBadVersion(midPoint);
 
       if (isBad) {
         // if bad (if true)
 
         if (isBadVersion(midPoint - 1) === false) {
-          console.log("\nANSWER FOUND");
           ans = midPoint;
           flag = false;
         }
@@ -132,7 +129,6 @@ var solution = function (isBadVersion: any) {
         // if good (if false)
 
         if (isBadVersion(midPoint + 1)) {
-          console.log("\nANSWER FOUND");
           ans = midPoint + 1;
           flag = false;
         }
