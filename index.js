@@ -1466,6 +1466,28 @@ var findTheDifference = function(s, t) {
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
+// https://leetcode.com/problems/longest-palindrome/description/
 
+var longestPalindrome = function(s) {
+    // remember you can discard whatever you dont need
+    // for example, if a has a total of 3 occurences, you can use 2 of those occurences in the palindrome count, and discard the 3rd one
+    const tracker = {}
+    let ans = 0
 
+    for(let c of s) {
+        if(!tracker[c]) {
+            tracker[c] = 1
+        } else {
+            tracker[c]++
+        }
 
+        if(tracker[c] % 2 === 0 ) { // If it is even, it means that the current character WILL contribute to forming palindromes, and the ans variable is incremented by 2.
+            ans += 2;
+        }
+
+    }
+
+    console.log(s.length, ans)
+    return s.length > ans ? ans + 1 : ans // if the ans is a substring, add a character to the middle of the string, since you can have a single odd pairing, if its already the length of the string, just return the ans since it the longest palindrome is the entire string
+
+    };
