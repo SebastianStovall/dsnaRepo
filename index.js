@@ -1530,3 +1530,37 @@ var findWords = function(words) {
     return ans
 
 };
+
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/island-perimeter/description/
+
+var islandPerimeter = function(grid) {
+    let perm = 0
+    for(let r = 0; r < grid.length; r++) {
+        for(let c = 0; c < grid[r].length; c++) {
+            if(grid[r][c] === 1) {
+              const amountTouching = findTouching(r,c,grid)
+              perm += (4 - amountTouching)
+            }
+        }
+    }
+    return perm
+};
+
+
+function findTouching(r, c, grid) {
+  let touching = 0
+  // up
+  if(grid[r - 1] && grid[r-1][c] && grid[r - 1][c] === 1) touching++
+  // right
+  if(grid[r] && grid[r][c + 1] && grid[r][c + 1] === 1) touching++
+  // down
+  if(grid[r + 1] && grid[r + 1][c] && grid[r + 1][c] === 1) touching++
+  // left
+  if(grid[r] && grid[r][c - 1] && grid[r][c - 1] === 1) touching++
+
+  return touching
+}
