@@ -437,3 +437,61 @@ def spiralOrder(self, matrix: list):
             matrix = new_matrix
 
         return result
+
+
+# // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+
+# https://leetcode.com/problems/license-key-formatting/description/
+
+def licenseKeyFormatting(s: str, k: int) -> str:
+        # // determine how many parts we will use in the final string
+        # // to do this, modulo the total characters in the og string and compare it to K
+        # // if num characters dont fit evenely, first grouping will have 1 chracter, else, it will abide by the normal grouping for k
+        # // make a new array that fits the grouping standards, making sure that we are converting all a-z to upperCase
+        # // return the array as a joined string inserting hyphens
+        # alphanumeric = 'abcdefghijkjlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+
+        ans = []
+        total = 0
+        sWithoutDash = list( s.replace('-', '') )
+
+        for char in s:
+            if char != '-':
+                total += 1
+
+        groupings = None
+        rem = None
+
+        # define the structure of the groupings
+        if total % k == 0:
+            groupings = total // k
+        else:
+            groupings = total // k
+            rem = total % k
+
+        # create the new LK... handle remainder first:
+        if rem is not None:
+            j = 0
+            remGrouping = ''
+            while j < rem:
+                if sWithoutDash[j].isnumeric():
+                    remGrouping = remGrouping + sWithoutDash[j]
+                else:
+                    remGrouping = remGrouping + sWithoutDash[j].upper()
+                j += 1
+            ans.append(remGrouping)
+
+        i = rem if rem is not None else 0
+        while i < len(sWithoutDash):
+            grouping = sWithoutDash[i: (i + k)]
+            grouping = ('').join(grouping)
+            if grouping.isnumeric() is False:
+                grouping = grouping.upper()
+            ans.append(grouping)
+            i += k
+
+        return ('-').join(ans)
+
+
+# // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+
