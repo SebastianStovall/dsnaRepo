@@ -110,3 +110,21 @@ var solution = function (isBadVersion) {
     };
 };
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+// https://leetcode.com/problems/repeated-substring-pattern/description/
+function repeatedSubstringPattern(s) {
+    let sub = ''; // repeatable units (the substring)
+    let copiesOfSubstring = ''; // the substring being built for comparison
+    for (let i = 0; i < s.length; i++) {
+        sub = s.slice(0, i + 1);
+        if (sub === s)
+            return false; // if the substring has become the original input, return false (no valid substring exists)
+        while (copiesOfSubstring.length < s.length) {
+            copiesOfSubstring += sub; // make copies of the substring and add them together
+            if (copiesOfSubstring === s)
+                return true;
+        }
+        copiesOfSubstring = ''; // reset for next iteration
+    }
+    return false;
+}
+;
