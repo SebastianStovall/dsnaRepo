@@ -495,3 +495,44 @@ def licenseKeyFormatting(s: str, k: int) -> str:
 
 # // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
 
+# https://leetcode.com/problems/design-hashmap/description/
+
+
+class MyHashMap:
+
+    def __init__(self):
+        self.map = [None] * 1000 # set personal hash table space, for this, dont want to make a resize, so i set to 1000
+
+
+    def __hash(self, key: int):
+        return key % 1000  # custom hash which is very very simple, returns modulo of key with 1000 to guarentee you get index in hash table
+
+
+    def put(self, key: int, value: int) -> None:
+        index = self.__hash(key)
+        if self.map[index] is None:
+            self.map[index] = [ [key, value] ]   # if nothing been stored in this bucket, assign KVP and return
+        else:
+            for i, KVP in enumerate(self.map[index]):  # go through the bucket, attempt to find key, if it exists, update and return
+                if KVP[0] == key:
+                    self.map[index][i][1] = value
+                    return
+            self.map[index].append([key, value])  # if key was not found in this bucket, assign it and return
+
+    def get(self, key: int) -> int:
+        index = self.__hash(key)
+        if self.map[index] is not None:  # if bucket not empty, find key and return its value
+            for KVP in self.map[index]:
+                if KVP[0] == key:
+                    return KVP[1]
+        return -1  # if bucket is empty, return -1
+
+    def remove(self, key: int) -> None:
+        index = self.__hash(key)
+        if self.map[index] is not None:  # if bucket exists, find the key in the bucket and remove it
+            for i, KVP in enumerate(self.map[index]):
+                if KVP[0] == key:
+                    self.map[index].pop(i)
+
+
+# // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
