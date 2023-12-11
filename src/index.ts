@@ -162,3 +162,65 @@ function repeatedSubstringPattern(s: string): boolean {
 
   return false
 };
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/add-strings/submissions/
+
+interface stringInt {
+  [props: string]: number
+}
+
+function addStrings(num1: string, num2: string): string {
+  const ans: number[] = []
+  const stringToInt: stringInt = {
+      '0': 0,
+      '1': 1,
+      '2': 2,
+      '3': 3,
+      '4': 4,
+      '5': 5,
+      '6': 6,
+      '7': 7,
+      '8': 8,
+      '9': 9
+  }
+
+  const longestLen: number = Math.max(num1.length, num2.length)  // pad for comparison and make remainder logic smooth
+  if(longestLen === num1.length) {
+      while(num2.length !== num1.length) num2 = '0' + num2
+  } else {
+      while(num1.length !== num2.length) num1 = '0' + num1
+  }
+
+
+  let i: number = (longestLen - 1)
+  let rem: number | null = null
+
+  while( num1[i] && num2[i] ) {
+      const number1: number = stringToInt[num1[i]]
+      const number2: number = stringToInt[num2[i]]
+      let sum: number = number1 + number2
+
+      if(rem !== null) { // if remainder exists, add to sum, then set to null
+          sum += rem
+          rem = null
+      }
+
+      if(sum > 9) {
+          const sumString = sum.toString()
+          rem = stringToInt[sumString[0]] // set remainder (carry the 1)
+          ans.push( stringToInt[sumString[1]] )
+      } else {
+          ans.push(sum)
+      }
+
+      i--
+
+  }
+
+  if(rem) ans.push(rem) // if done with loop, but a remainder still exists, add to result array
+  return ans.reverse().join('')
+
+};
