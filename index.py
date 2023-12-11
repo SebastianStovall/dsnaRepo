@@ -536,3 +536,33 @@ class MyHashMap:
 
 
 # // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+
+# https://leetcode.com/problems/teemo-attacking/submissions/
+
+def findPoisonedDuration(self, timeSeries: list, duration: int) -> int:
+        total_poison_time = 0
+        acc = None
+
+        for i, seconds in enumerate(timeSeries):
+            poison_duration = seconds + (duration - 1)
+
+            if i < (len(timeSeries) - 1):
+                next_attack = timeSeries[i + 1]
+                if next_attack - poison_duration > 0: # non accumulative
+                    if acc is not None:
+                        total_poison_time += ( (seconds - acc) + duration )
+                        acc = None
+                    else:
+                        total_poison_time += duration
+                else:  # accumulative
+                    if acc is None:
+                        acc = seconds
+            else:
+                if acc is not None:
+                    total_poison_time += ( (seconds - acc) + duration )
+                else:
+                    total_poison_time += duration
+        return total_poison_time
+
+
+# // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
