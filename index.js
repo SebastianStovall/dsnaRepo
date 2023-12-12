@@ -1564,3 +1564,37 @@ function findTouching(r, c, grid) {
 
   return touching
 }
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/set-mismatch/description/
+
+var findErrorNums = function(nums) {
+    // get the EXPECTED summation of (1 - n)
+    let expectedSum = 0
+    let i = 1
+    while(i < (nums.length + 1) ) {
+        expectedSum += i
+        i++
+    }
+
+    // find our repeating number value, and track the total summation of (1 - n) of MISMATCH set
+    let mismatchSum = 0
+    let repeatedNumber = null
+    const tracker = new Set()
+    for(let i = 0; i < nums.length; i++) {
+        mismatchSum += nums[i]
+        if( tracker.has(nums[i]) ) {
+            repeatedNumber = nums[i]
+        } else {
+            tracker.add(nums[i])
+        }
+    }
+
+    // We can find out missing number by taking the summation of mismatch (without the extra repeating value) and subtracting it by the expecting sum
+    const sumMinusRepeat = mismatchSum - repeatedNumber
+    const missingNumber = expectedSum - sumMinusRepeat
+    return [repeatedNumber, missingNumber]
+
+};
