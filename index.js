@@ -1598,3 +1598,37 @@ var findErrorNums = function(nums) {
     return [repeatedNumber, missingNumber]
 
 };
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/construct-the-rectangle/description/
+
+var constructRectangle = function(area) {
+    // [length, width]
+    // answer is the area with the smallest difference of  length - width
+
+    let factors = [] // generate all factors of area input and store them in an array
+    let index = 0;
+    while(index <= area) {
+        if(area % index === 0) factors.push(index)
+        index++
+    }
+
+    let j = (factors.length - 1) // i starts at beginning, j starts at end ( [0, 4] [1, 3] [2, 2] [3,1] [4, 0] )
+    let ans = null
+    let smallestDifference = Infinity
+
+    for(let i = 0; i < factors.length; i++) {
+        const length = factors[i]
+        const width = factors[j]
+        if( length >= width && length - width <= smallestDifference ) {
+            ans = [length, width]
+            smallestDifference = (length - width)
+        }
+        j--
+    }
+
+    return ans
+
+};
