@@ -566,3 +566,21 @@ def findPoisonedDuration(self, timeSeries: list, duration: int) -> int:
 
 
 # // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+
+# https://leetcode.com/problems/baseball-game/description/
+
+def calPoints(operations: list) -> int:
+    score = list()
+    for op in operations:
+        if op == '+':
+            score.append(score[-1] + score[-2])
+        elif op == 'D':
+            score.append(score[-1] * 2)
+        elif op == 'C':
+            score.pop(-1)
+        else:
+            score.append(int(op))
+        return sum(score)
+
+
+# // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
