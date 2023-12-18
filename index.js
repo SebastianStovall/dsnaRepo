@@ -1632,3 +1632,28 @@ var constructRectangle = function(area) {
     return ans
 
 };
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+var canPlaceFlowers = function(flowerbed, n) {
+    if(flowerbed.length === 0 || n === 0) return true // if no flowers to place, or no flowers in garden
+    if(flowerbed.length === 1 && flowerbed[0] === 0) return true // loop doesnt handle case check of one flower in garden, so handle as an edge case
+    if(flowerbed.length === 1 && flowerbed[0] === 1) return false
+
+    for(let i = 0; i < flowerbed.length; i++) {
+
+        if(i === 0 && flowerbed[i + 1] !== undefined && flowerbed[i + 1] === 0 && flowerbed[i] === 0) { // if i === 0, only check right and current
+            flowerbed[i] = 1
+            n -= 1
+        } else if (i === flowerbed.length - 1 && flowerbed[i - 1] !== undefined && flowerbed[i - 1] === 0 && flowerbed[i] === 0) { // if i == last, check left and current
+            flowerbed[i] = 1
+            n -= 1
+        } else if ( flowerbed[i] === 0 && (i < flowerbed.length - 1) && flowerbed[i + 1] === 0 && (i !== 0) && flowerbed[i - 1] === 0 ) { // check curr, left, and right
+            flowerbed[i] = 1
+            n -= 1
+        }
+    }
+
+    return n <= 0 // if you were able to place all flowers, or had room to even place more flowers than what you needed, return TRUE... else FALSE
+};
