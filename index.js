@@ -1657,3 +1657,50 @@ var canPlaceFlowers = function(flowerbed, n) {
 
     return n <= 0 // if you were able to place all flowers, or had room to even place more flowers than what you needed, return TRUE... else FALSE
 };
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+var floodFill = function(image, sr, sc, color) {
+    // queue BFT (push pop)
+    // find neighbors from source, implement a queue, turn coordinates with src value to color value (if src value, put on queue first, then turn it to color value
+    const srcVal = image[sr][sc]
+    const setTrack = new Set()
+    setTrack.add( [sr, sc].toString() )
+
+    const queue = [ [sr, sc] ]
+    while(queue.length > 0) {
+        const [row, col] = queue.pop()
+        if(row !== sr || col !== sc) image[row][col] = color
+
+        const neighbors = findNeighbors(image, row, col, srcVal)
+        for(let n of neighbors) {
+            const [r, c] = n
+            if( !(setTrack.has([r, c].toString())) ) {
+                setTrack.add( [r, c].toString() )
+                queue.push([r, c])
+            }
+        }
+    }
+
+    image[sr][sc] = color
+    return image
+
+};
+
+
+
+const findNeighbors = (matrix, row, col, srcVal) => {
+    const neighbors = []
+    // up
+    if (row > 0 && matrix[row - 1][col] === srcVal) neighbors.push([row - 1, col])
+    // right
+    if (col < matrix[0].length - 1 && matrix[row][col + 1] === srcVal) neighbors.push([row, col + 1])
+    // down
+    if (row < matrix.length - 1 && matrix[row + 1][col] === srcVal) neighbors.push([row + 1, col])
+    // left
+    if (col > 0 && matrix[row][col - 1] === srcVal) neighbors.push([row, col - 1])
+
+    return neighbors
+}
