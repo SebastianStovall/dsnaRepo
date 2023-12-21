@@ -1704,3 +1704,39 @@ const findNeighbors = (matrix, row, col, srcVal) => {
 
     return neighbors
 }
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/product-of-array-except-self/submissions/
+
+var productExceptSelf = function(nums) {
+    let acc = 1
+    let left = [1]
+    for(let i = 0; i < nums.length; i++) {
+        if(i !== 0) {
+            acc *= nums[i - 1]
+            left.push(acc)
+        }
+    }
+
+    acc = 1
+    let right = [1]
+    for(let i = nums.length - 1; i >= 0; i--) {
+        if(i !== nums.length - 1) {
+            acc *= nums[i + 1]
+            right.unshift(acc)
+        }
+    }
+
+    console.log("LEFT", left)
+    console.log("RIGHT", right)
+
+    const res = []
+    let i = 0
+    while(i < nums.length) {
+        res.push(left[i] * right[i])
+        i += 1
+    }
+
+    return res
+};
