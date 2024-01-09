@@ -1740,3 +1740,49 @@ var productExceptSelf = function(nums) {
 
     return res
 };
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/guess-number-higher-or-lower/submissions/
+
+var guessNumber = function(n) {
+    let apiRes = guess(n)
+    let left;
+    let right;
+
+    if(apiRes === 0) {
+        return n
+    } else if (apiRes === -1) { // HIGHER
+        const [leftB, rightB] = createBoundaries(n)
+        left = leftB
+        right = rightB
+    } else { // LOWER
+        const [leftB, rightB] = createBoundaries(_, n)
+        left = leftB
+        right = rightB
+    }
+
+    while(true) {
+        const midPoint = Math.floor( (left + right) / 2)
+        const newApiRes = guess(midPoint)
+        if(newApiRes === 0) {
+            return midPoint
+        } else if(newApiRes === 1) {
+            // lower
+            left = midPoint + 1
+        } else {
+            // higher
+            right = midPoint - 1
+        }
+    }
+};
+
+
+function createBoundaries(high, low) {
+    if(low !== undefined) { // guess was lower
+        return [low + 1, 100000] // left bound, right bound
+    } else { // guess was higher
+        return [0, high - 1] // left bound, right bound
+    }
+}
