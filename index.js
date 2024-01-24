@@ -1786,3 +1786,130 @@ function createBoundaries(high, low) {
         return [0, high - 1] // left bound, right bound
     }
 }
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/convert-a-number-to-hexadecimal/
+
+
+var toHex = function(num) {
+    if(num === 0) return '0'
+    const totals = [];
+    let result = '';
+    let [isNegative, binaryString] = toBin(num)
+
+    if(isNegative) {
+        binaryString = twoComp(binaryString)
+    }
+
+    let count = 0;
+    let index = 0;
+    for(let i = 0; i < binaryString.length; i++) {
+        if(index === 3) {
+            if(binaryString[i] === '1') count += binaryValueAtIndex[index.toString()]
+            totals.push(count)
+            index = 0
+            count = 0
+        } else {
+            if(binaryString[i] === '1') count += binaryValueAtIndex[index.toString()]
+            index++
+        }
+    }
+
+    for(let i = 0; i < totals.length; i++) {
+        result += decToHex[totals[i].toString()]
+    }
+
+    return result.replace(/^0+/, ''); // remove leading 0s
+};
+
+
+function toBin(decimal) {
+    let binary = "";
+    let isNeg = false;
+
+    if(decimal < 0) {
+        isNeg = true
+        decimal = Math.abs(decimal)
+    }
+
+    while (decimal > 0) { // divide decimal by 2 until it reaches 0 (or less)
+        // if decimal has a remainder, turn on the bit, if not, make it 0
+        if (decimal % 2 == 1) {
+            binary = "1" + binary;
+        } else {
+            binary = "0" + binary;
+        }
+        // divide number by 2.
+        decimal = Math.floor(decimal / 2);
+    }
+
+    while(binary.length < 32) {
+        binary = '0' + binary
+    }
+
+    if(isNeg) { // if neg, turn the leftmost to a 1
+        binary = binary.split('')
+        binary[0] = '1'
+        binary = binary.join('')
+    }
+    return (isNeg ? [true, binary.split('')] : [false, binary.split('')])
+}
+
+
+function twoComp(binaryString) {
+    // INVERT BITS
+    for(let i = 0; i < binaryString.length; i++) {
+        if(binaryString[i] === '0') {
+            binaryString[i] = '1'
+        } else {
+            binaryString[i] = '0'
+        }
+    }
+
+    // ADD 1
+    let carry = 1
+    for(let i = binaryString.length - 1; i >= 0; i--) {
+        let res = Number(binaryString[i]) + carry
+        if(carry === 0) res = 0
+
+        if(res === 2) {
+            binaryString[i] = '0'
+            carry = 1
+        } else if (res === 1) {
+            binaryString[i] = '1'
+            carry = 0
+        }
+    }
+
+    binaryString[0] = '1' // flip the signed bit
+
+    return binaryString
+}
+
+const binaryValueAtIndex = {
+    '0': 8, // index 0 --> 8  (1000)
+    '1': 4, // index 1 --> 4  (0100)
+    '2': 2, // index 2 --> 2  (0010)
+    '3': 1  // index 3 --> 1  (0001)
+}
+
+const decToHex = {
+    '0': 0,
+    '1': 1,
+    '2': 2,
+    '3': 3,
+    '4': 4,
+    '5': 5,
+    '6': 6,
+    '7': 7,
+    '8': 8,
+    '9': 9,
+    '10': 'a',
+    '11': 'b',
+    '12': 'c',
+    '13': 'd',
+    '14': 'e',
+    '15': 'f'
+}
