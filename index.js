@@ -1913,3 +1913,27 @@ const decToHex = {
     '14': 'e',
     '15': 'f'
 }
+
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+var checkPerfectNumber = function(num) {
+    if (num <= 1) {
+        return false;
+    }
+
+    let divisorsSum = 1; // Start with 1 as all numbers are divisible by 1
+
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) {
+            divisorsSum += i;
+            if (i !== num / i) { // Avoid counting the same divisor twice
+                divisorsSum += num / i;
+            }
+        }
+    }
+
+    return divisorsSum === num;
+};
