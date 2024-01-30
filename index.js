@@ -1937,3 +1937,29 @@ var checkPerfectNumber = function(num) {
 
     return divisorsSum === num;
 };
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/detect-capital/
+
+var detectCapitalUse = function(word) {
+    let hasLower = false
+
+    for(let i = 0; i < word.length; i++) {
+        if(word[i] === word[i].toLowerCase()) {
+            hasLower = true
+        }
+    }
+
+    if(!hasLower) { // if no lower, return true  (CASE 1)
+        return true
+    }
+
+    for(let i = 1; i < word.length; i++) {
+        if(word[i] === word[i].toUpperCase()) return false
+    }
+
+    return true
+
+};
