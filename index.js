@@ -1963,3 +1963,28 @@ var detectCapitalUse = function(word) {
     return true
 
 };
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/student-attendance-record-i/
+
+var checkRecord = function(s) {
+    let absentCount = 0
+    let lateViolation = false
+
+    for(let i = 0; i < s.length; i++) {
+        if(s[i] === 'A') absentCount++
+
+        if(s[i] === 'L' && s[i + 1] && s[i + 1] === 'L' && s[i + 2] && s[i + 2] === 'L') {
+            lateViolation = true
+        }
+    }
+
+    if(absentCount >= 2 || lateViolation) {
+        return false
+    } else {
+        return true
+    }
+
+};
