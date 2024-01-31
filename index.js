@@ -1988,3 +1988,34 @@ var checkRecord = function(s) {
     }
 
 };
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/robot-return-to-origin/
+
+var judgeCircle = function(moves) {
+    let r = 0
+    let c = 0
+
+    for(let i = 0; i < moves.length; i++) {
+        if(moves[i] === 'U') {
+            r = r - 1
+        }
+
+        if(moves[i] === 'L') {
+            c = c - 1
+        }
+
+        if(moves[i] === 'D') {
+            r = r + 1
+        }
+
+        if(moves[i] === 'R') {
+            c = c + 1
+        }
+    }
+
+    return (r === 0 && c === 0)
+
+};
