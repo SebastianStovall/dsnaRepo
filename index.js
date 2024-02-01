@@ -2019,3 +2019,44 @@ var judgeCircle = function(moves) {
     return (r === 0 && c === 0)
 
 };
+
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+// https://leetcode.com/problems/reverse-string-ii/submissions/1162943253/
+
+
+var reverseStr = function(s, k) {
+    const stringArr = s.split('')
+    let result = ''
+
+    let swap = true
+    let cooldown = k * 2 // cooldown is k * 2 because I need to account for swapping and non-swapping index's to properly keep track of when I need to swap
+
+    for(let i = 0; i < stringArr.length; i++) {
+        if(cooldown <= 0) {
+            swap = true
+            cooldown = (k * 2)
+        }
+
+        if(swap) {
+            const segment = stringArr.slice(i, i + k) // slice the proper segment, reverse it, and append it
+            result += segment.reverse().join('')
+            swap = false
+        }
+
+        if(!swap) {
+            cooldown--
+            if(cooldown < k) { // this is necessary to we dont duplicate the swaped letters to the result string (only concerned with the lower half of k)
+                result += stringArr[i]
+            }
+        }
+    }
+
+    return result
+
+};
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------//
