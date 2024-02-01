@@ -2060,3 +2060,35 @@ var reverseStr = function(s, k) {
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
+// https://leetcode.com/problems/reshape-the-matrix/submissions/1162976566/
+
+
+var matrixReshape = function(mat, r, c) {
+    let eleCount = 0
+    const fill = []
+
+    for(let i = 0; i < mat.length; i++) {
+        const row = mat[i]
+        for(let j = 0; j < row.length; j++) {
+            eleCount++
+            fill.push(row[j])
+        }
+    }
+
+    if( eleCount !== (r * c) ) return mat
+
+    const reshape = []
+    let indexForFill = 0
+
+    for(let i = 0; i < r; i++) {
+        reshape[i] = []
+        for(let j = 0; j < c; j++) {
+            reshape[i][j] = fill[indexForFill]
+            indexForFill++
+        }
+    }
+
+    return reshape
+};
