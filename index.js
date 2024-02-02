@@ -2105,3 +2105,25 @@ var createCounter = function(n) {
         return count - 1
     };
 };
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/is-object-empty/submissions/1164194107/
+
+
+var isEmpty = function(obj) {
+    if(Array.isArray(obj)) {
+        if(obj.length <= 0) {
+            return true
+        } else {
+            return false
+        }
+    } else {
+        if(Object.keys(obj).length <= 0) {
+            return true
+        } else {
+            return false
+        }
+    }
+};
