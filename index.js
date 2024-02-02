@@ -2127,3 +2127,30 @@ var isEmpty = function(obj) {
         }
     }
 };
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/to-be-or-not-to-be/
+
+var expect = function(val) {
+    const test = {
+        toBe: function(value) {
+            if(value === val) {
+                return true
+            } else {
+                throw "Not Equal"
+            }
+        },
+
+        notToBe: function(value) {
+            if(value !== val) {
+                return true
+            } else {
+                throw "Equal"
+            }
+        }
+    }
+
+    return test
+};
