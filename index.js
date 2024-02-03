@@ -2154,3 +2154,43 @@ var expect = function(val) {
 
     return test
 };
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+
+// https://leetcode.com/problems/filter-elements-from-array/
+
+var filter = function(arr, fn) {
+    const filtered = []
+
+    for(let i = 0; i < arr.length; i++) {
+        if( fn(arr[i]) || fn(arr[i], i) ) {
+            filtered.push(arr[i])
+        }
+    }
+
+    return filtered
+};
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/number-of-segments-in-a-string/submissions/1164469397/
+
+
+var countSegments = function(s) {
+    if(s.length === 0) return 0 // if empty string, return 0 segments
+    s = s.trim() // trim the string of white space
+
+    let segmentCount = 0 // keep track of segments
+    const sArr = s.split(" ") // split into an array for each space to make it more digestable
+
+
+    for(let i = 0; i < sArr.length; i++) {
+        if(sArr[i].length !== 0) { // only count segments that dont consist of whitespace
+            segmentCount++
+        }
+    }
+
+    return segmentCount
+};
