@@ -2194,3 +2194,130 @@ var countSegments = function(s) {
 
     return segmentCount
 };
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/valid-sudoku/submissions/1166874792/
+
+
+var isValidSudoku = function(board) {
+    const rowsGood = checkRows(board)
+    const colsGood = checkCols(board)
+    const sectionsGood = checkSections(board)
+    return rowsGood && colsGood && sectionsGood
+
+};
+
+function checkSections(board) {
+    const sections = {
+        '0': [],
+        '1': [],
+        '2': [],
+        '3': [],
+        '4': [],
+        '5': [],
+        '6': [],
+        '7': [],
+        '8': []
+    }
+
+    for(let i = 0; i < board.length; i++) {
+        const row = board[i]
+        for(let j = 0; j < row.length; j++) {
+            if(i <= 2) { // sections 0-2
+                if(j <= 2) {
+                    sections['0'].push(row[j])
+                } else if (j > 2 && j <= 5) {
+                    sections['1'].push(row[j])
+                } else {
+                    sections['2'].push(row[j])
+                }
+            } else if(i > 2 && i <= 5) { // sections 3-5
+                if(j <= 2) {
+                    sections['3'].push(row[j])
+                } else if (j > 2 && j <= 5) {
+                    sections['4'].push(row[j])
+                } else {
+                    sections['5'].push(row[j])
+                }
+            } else { // sections 6-8
+                if(j <= 2) {
+                    sections['6'].push(row[j])
+                } else if (j > 2 && j <= 5) {
+                    sections['7'].push(row[j])
+                } else {
+                    sections['8'].push(row[j])
+                }
+            }
+        }
+    }
+
+    for(key in sections) {
+        const sector = sections[key]
+        const setCheck = new Set()
+        for(let i = 0; i < sector.length; i++) {
+            if(sector[i] !== '.') {
+                if(!setCheck.has(sector[i])) {
+                    setCheck.add(sector[i])
+                } else {
+                    return false
+                }
+            }
+        }
+    }
+
+    return true
+}
+
+function checkRows(board) {
+    for(let i = 0; i < board.length; i++) {
+        const setCheck = new Set()
+        const row = board[i]
+        for(let j = 0; j < row.length; j++) {
+            if(row[j] !== '.') {
+                if(!setCheck.has(row[j])) {
+                    setCheck.add(row[j])
+                } else {
+                    return false
+                }
+            }
+        }
+    }
+    return true
+}
+
+function checkCols(board) {
+    const columns = {
+        "0": [],
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [],
+        "7": [],
+        "8": [],
+        "9": []
+    }
+    for(let i = 0; i < board.length; i++) {
+        const row = board[i]
+        for(let j = 0; j < row.length; j++) {
+            if(row[j] !== '.') {
+                columns[j.toString()].push(row[j])
+            }
+        }
+    }
+    for(let col in columns) {
+        const column = columns[col]
+        const setCheck = new Set()
+        for(let i = 0; i < column.length; i++) {
+            if(!setCheck.has(column[i])) {
+                setCheck.add(column[i])
+            } else {
+                return false
+            }
+        }
+    }
+    return true
+}
