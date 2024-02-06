@@ -2321,3 +2321,43 @@ function checkCols(board) {
     }
     return true
 }
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+function luckBalance(k, contests) {
+    let luck = 0; // keep track of luck balance
+    let numImpContests = 0 // use this to determine how many contests we must win
+    const contestPointTracker = {} // use this to determine which contests Lucy should win first to give her the most luck possible
+
+    for(let i = 0; i < contests.length; i++) {
+        const [luckR, important] = contests[i]
+        luck += luckR // initially count every contest luck points
+
+        if(important !== 0) {  // if important, add to tracker
+            numImpContests++
+            if(!contestPointTracker[luckR.toString()]) {
+                contestPointTracker[luckR.toString()] = 1
+            } else {
+                contestPointTracker[luckR.toString()]++
+            }
+        }
+    }
+
+    let mustWin = numImpContests - k // determine how many contests lucy MUST win
+    while(mustWin > 0) {
+        let leastWinPoints = Infinity // avoids having to splice
+        for(let key in contestPointTracker) { // determine the least signficant win cost to Lucy's luck poitns
+            const luckR = Number(key)
+            if(luckR < leastWinPoints && contestPointTracker[key] !== 0 ) {
+                leastWinPoints = luckR
+            }
+        }
+        luck -= (leastWinPoints * 2) // since we initially counted everything, need to subtract the value twice
+        contestPointTracker[leastWinPoints.toString()]--
+        mustWin--
+        leastWinPoints = Infinity
+    }
+
+    return luck
+}
