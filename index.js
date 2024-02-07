@@ -2361,3 +2361,69 @@ function luckBalance(k, contests) {
 
     return luck
 }
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/game-of-life/submissions/1168971727/
+
+
+var gameOfLife = function(board) {
+    const nextGeneration = []
+
+    for(let r = 0; r < board.length; r++) {
+        for(let c = 0; c < board[r].length; c++ ) {
+            const oneCount = neighbors(board, r, c)
+            if(board[r][c] === 1) {
+               if(oneCount < 2) {
+                   nextGeneration.push(0)
+               } else if (oneCount >= 2 && oneCount < 4) {
+                   nextGeneration.push(1)
+               } else {
+                   nextGeneration.push(0)
+               }
+            } else {
+                if(oneCount === 3) {
+                    nextGeneration.push(1)
+                } else {
+                    nextGeneration.push(0)
+                }
+            }
+        }
+    }
+
+    let i = 0;
+    for(let r = 0; r < board.length; r++) {
+        for(let c = 0; c < board[r].length; c++) {
+            board[r][c] = nextGeneration[i]
+            i++
+        }
+    }
+};
+
+
+
+function neighbors(board, r, c) {
+    let oneCount = 0
+
+    // up - up right - up left
+    if(board[r - 1] !== undefined) {
+        if(board[r-1][c] !== undefined && board[r-1][c] === 1) oneCount++
+        if(board[r-1][c-1] !== undefined && board[r-1][c-1] === 1) oneCount++
+        if(board[r-1][c+1] !== undefined && board[r-1][c+1] === 1) oneCount++
+    }
+
+    // down - down left - down right
+    if(board[r + 1] !== undefined) {
+        if(board[r+1][c] !== undefined && board[r+1][c] === 1) oneCount++
+        if(board[r+1][c-1] !== undefined && board[r+1][c-1] === 1) oneCount++
+        if(board[r+1][c+1] !== undefined && board[r+1][c+1] === 1) oneCount++
+    }
+
+    // right
+    if(board[r][c+1] !== undefined && board[r][c+1] === 1) oneCount++
+    // left
+    if(board[r][c-1] !== undefined && board[r][c-1] === 1) oneCount++
+
+    return oneCount
+}
