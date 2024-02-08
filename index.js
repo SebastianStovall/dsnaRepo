@@ -2427,3 +2427,30 @@ function neighbors(board, r, c) {
 
     return oneCount
 }
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/gas-station/?envType=featured-list&envId=top-interview-questions?envType=featured-list&envId=top-interview-questions
+
+
+var canCompleteCircuit = function(gas, cost) {
+    let totalGas = 0; // if gas >= cost, a solution must exist
+    let totalCost = 0; // if cost > gas, a solution cant exist
+
+    let currentGas = 0;
+    let startStation = 0;
+
+    for (let i = 0; i < gas.length; i++) {
+        totalGas += gas[i]
+        totalCost += cost[i]
+
+        currentGas += gas[i] - cost[i];
+        if(currentGas < 0) { // if gas ever dips below 0, we not that the starting station hasnt been found yet, so assign it the next possible starting point which is i + 1
+            startStation = i + 1
+            currentGas = 0 // reset your gas
+        }
+    }
+
+    return (totalGas >= totalCost) ? startStation : -1 // if a solution exists, return startStation, else, -1
+}
