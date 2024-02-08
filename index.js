@@ -2454,3 +2454,28 @@ var canCompleteCircuit = function(gas, cost) {
 
     return (totalGas >= totalCost) ? startStation : -1 // if a solution exists, return startStation, else, -1
 }
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/repeated-dna-sequences/?envType=featured-list&envId=top-interview-questions%3FenvType%3Dfeatured-list&envId=top-interview-questions
+
+var findRepeatedDnaSequences = function(s) {
+    const DNAStrands = new Set()
+    const repeating = []
+
+    for(let i = 0; i < s.length; i++) {
+        const dnaSlice = s.slice(i, i + 10) // represents every possible DNA strand combo with a length of 10 inside of s string
+        if(dnaSlice.length === 10) {
+            if(!DNAStrands.has(dnaSlice)) { // add the combinations to a set
+                DNAStrands.add(dnaSlice)
+            } else {
+                if(!repeating.includes(dnaSlice)) { // if the combo has already appeared more than once, add it to repeating (if not already in repeating)
+                    repeating.push(dnaSlice)
+                }
+            }
+        }
+    }
+
+    return repeating
+};
