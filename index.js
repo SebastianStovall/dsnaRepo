@@ -2479,3 +2479,57 @@ var findRepeatedDnaSequences = function(s) {
 
     return repeating
 };
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+
+// https://www.hackerrank.com/challenges/kangaroo/problem?isFullScreen=true
+
+function kangaroo(x1, v1, x2, v2) {
+    let startPosKang1 = x1 + v1
+    let startPosKang2 = x2 + v2
+    for(let i = 0; i < 10000; i++) {
+        if(startPosKang1 === startPosKang2) {
+            return 'YES'
+        } else {
+            startPosKang1 += v1
+            startPosKang2 += v2
+        }
+    }
+    return 'NO'
+}
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+
+
+const possibilities = [
+    [[4, 9, 2], [3, 5, 7], [8, 1, 6]],
+    [[4, 3, 8], [9, 5, 1], [2, 7, 6]],
+    [[2, 9, 4], [7, 5, 3], [6, 1, 8]],
+    [[2, 7, 6], [9, 5, 1], [4, 3, 8]],
+    [[8, 1, 6], [3, 5, 7], [4, 9, 2]],
+    [[8, 3, 4], [1, 5, 9], [6, 7, 2]],
+    [[6, 7, 2], [1, 5, 9], [8, 3, 4]],
+    [[6, 1, 8], [7, 5, 3], [2, 9, 4]]
+];
+
+const transformCost = (sources, targets) => {
+    let result = 0;
+    sources.forEach((numbers, i) => {
+        numbers.forEach((numb, j) => {
+            result += Math.abs(numb - targets[i][j])
+        })
+    });
+    return result;
+}
+
+function formingMagicSquare(s) {
+    // Write your code here
+    let final = -1;
+    possibilities.forEach((pos, i) => {
+        let tmpCost = transformCost(s, pos)
+        if (final === -1 || tmpCost < final) final = tmpCost;
+    })
+    return final;
+}
