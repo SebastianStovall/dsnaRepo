@@ -2533,3 +2533,30 @@ function formingMagicSquare(s) {
     })
     return final;
 }
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/two-sum/
+
+var twoSum = function(nums, target) {
+    const tracker = {}
+    let firstIndex = null;
+    let secondIndex = null;
+
+    for(let i = 0; i < nums.length; i++) {
+        const difference = target - nums[i];
+        if(tracker[difference] === undefined) {
+            tracker[difference] = i
+        }
+    }
+
+    for(let i = 0; i < nums.length; i++) {
+        if(nums[i].toString() in tracker && i !== tracker[nums[i.toString()]]) {
+            firstIndex = tracker[nums[i.toString()]]
+            secondIndex = i
+            break;
+        }
+    }
+
+    return [firstIndex, secondIndex]
+};
