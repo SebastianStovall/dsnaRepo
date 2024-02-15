@@ -2560,3 +2560,34 @@ var twoSum = function(nums, target) {
 
     return [firstIndex, secondIndex]
 };
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// https://leetcode.com/problems/evaluate-reverse-polish-notation/
+
+var evalRPN = function(tokens) {
+    const stack = []
+    for(let i = 0; i < tokens.length; i++) {
+        const element = tokens[i]
+        if(element === '+') { // if we are dealing with any of the 4 operations (+ - / *), pop the two previous numbers from stack, perform the operation, then push to the stack
+            stack.push(stack.pop() + stack.pop())
+        } else if(element === '-') {
+            const x = stack.pop()
+            const y = stack.pop()
+            stack.push(y - x)
+        } else if(element === '/') {
+            const x = stack.pop()
+            const y = stack.pop()
+            stack.push(Math.trunc(y / x))
+        } else if(element === '*') {
+            stack.push(stack.pop() * stack.pop())
+        } else {
+            stack.push(Number(element)) // if element is a number and not an operation, push it to the stack
+        }
+
+    }
+
+    return stack[0]
+
+};
