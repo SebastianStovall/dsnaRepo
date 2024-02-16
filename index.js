@@ -2630,3 +2630,24 @@ var leastBricks = function(wall) {
     return wall.length - best
 
 };
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/daily-temperatures/description/
+
+var dailyTemperatures = function(temperatures) {
+    const result = new Array(temperatures.length).fill(0) // Provides us a default value for each day --> '0'
+    const stack = []
+
+    for(let i = 0; i < temperatures.length; i++) {
+        while(stack.length > 0 && temperatures[i] > stack[stack.length - 1][0] ) { // if the temp we are at is GREATER than the temp on top of our stack, we need to do something...
+            const [temp, index] = stack.pop();
+            const nDays = i - index; // use the OG index and the i we are currently at to find the total number of days passed
+            result[index] = nDays; // key directly into the index on that day to assign the number of days that have passed
+        }
+        stack.push([temperatures[i], i]); // each iteration, a new temp goes on to the stack. we keep a ref to its original index to compare nDays
+    }
+
+    return result
+};
