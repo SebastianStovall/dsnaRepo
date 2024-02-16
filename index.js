@@ -2591,3 +2591,42 @@ var evalRPN = function(tokens) {
     return stack[0]
 
 };
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/brick-wall/
+
+var leastBricks = function(wall) {
+    // the sum of each row at each element represents the an edge where you can pass between the bricks in that row
+    // so the crux of this problem is finding the most frequent edge, so we can draw a line that will pass through the most bricks
+    // 1.) initiate a frequency object to keep track of edges for each row of bricks
+    // 2.) populate the frequency object with a nested for loop, going through each row, added to the edge if exists, or creating its KVP if it doesnt exist
+    // 3.) loop through each edge, find the most frequent edge
+    // 4.) once we have the most frequent edge (most passes possible), subtract the frequency from the wall's length (height)
+    // return (nRows - nAvoided) ---> represents the minimum number of bricks needed to cross THROUGH
+    const frequency = {}
+    let best = 0
+
+    for(let i = 0; i < wall.length; i++) {
+        const row = wall[i]
+        let rowSum = 0
+        for(let j = 0; j < row.length - 1; j++) { // note that its (length - 1)... this is because we dont count the last edge, since we would ALWAYS pass through the brick
+            rowSum += row[j]
+            if(frequency[rowSum] === undefined) {
+                frequency[rowSum] = 1
+            } else {
+                frequency[rowSum]++
+            }
+        }
+    }
+
+    for(let key in frequency) {
+        if(frequency[key] > best) {
+            best = frequency[key]
+        }
+    }
+
+    return wall.length - best
+
+};
