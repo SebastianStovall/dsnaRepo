@@ -2651,3 +2651,36 @@ var dailyTemperatures = function(temperatures) {
 
     return result
 };
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/search-a-2d-matrix/
+
+var searchMatrix = function(matrix, target) {
+    let left = 0
+    let right = matrix.length - 1
+
+    for(let i = 0; i < matrix.length; i++) {
+        const midIndex = Math.floor( (left + right) / 2)
+
+        if(matrix[midIndex][0] === target) {
+            return true
+        } else if (matrix[midIndex][0] > target) { // not in this array, go right
+            right--
+        } else if (matrix[midIndex][matrix[midIndex].length - 1] === target) {
+            return true
+        } else if (matrix[midIndex][matrix[midIndex].length - 1] < target) { // not in this array, go left
+            left++
+        } else {
+            for(let j = 0; j < matrix[midIndex].length; j++) { // SHOULD be located inside this array, IF target exists
+                if(matrix[midIndex][j] === target) {
+                    return true
+                }
+            }
+            break; // if it wasnt found at this point, break from loop... no point in contining our binary search
+        }
+
+    }
+
+    return false
+};
