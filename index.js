@@ -2794,3 +2794,28 @@ function birthdayCakeCandles(candles) {
     return canBlowOut
 
 }
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+
+// https://www.hackerrank.com/challenges/mini-max-sum/problem?isFullScreen=true
+
+function miniMaxSum(arr) {
+
+    const sortedArr = arr.sort((a, b) => a - b)
+    arr = sortedArr
+
+    let min = 0
+    let max = 0
+
+    for(let i = 0; i < arr.length - 1; i++) {
+        min += arr[i]
+    }
+
+    for(let i = arr.length - 1; i > 0; i--) {
+        max += arr[i]
+    }
+
+    console.log(min, max)
+
+}
