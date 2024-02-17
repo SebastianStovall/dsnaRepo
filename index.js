@@ -2819,3 +2819,43 @@ function miniMaxSum(arr) {
     console.log(min, max)
 
 }
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://www.hackerrank.com/challenges/migratory-birds/problem?isFullScreen=true
+
+function migratoryBirds(arr) {
+    const birdWatch = {}
+
+    for(let i = 0; i < arr.length; i++) {
+        if(birdWatch[arr[i]]) {
+            birdWatch[arr[i]]++
+        } else {
+            birdWatch[arr[i]] = 1
+        }
+    }
+
+    let max = [-Infinity, Infinity]
+    //             num       id
+
+    for(let key in birdWatch) {
+        const [num, id] = max
+
+        console.log("SIGHTINGS", birdWatch[key])
+        console.log("BIRD ID", Number(key))
+
+        if( birdWatch[key] === num && Number(key) < id) {
+            max = [birdWatch[key], key]
+        }
+
+
+        if( birdWatch[key] > num ) {
+            max = [birdWatch[key], key]
+        }
+
+    }
+
+    return Number(max[1])
+
+}
