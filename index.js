@@ -2684,3 +2684,36 @@ var searchMatrix = function(matrix, target) {
 
     return false
 };
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/koko-eating-bananas/
+
+var minEatingSpeed = function(piles, h) {
+    let left = 1
+    let right = Math.max(...piles)
+
+    while(left !== right) { // we are finding a single value, that being minimum k speed koko needs to eat bananas
+        const k = Math.floor((left + right) / 2)
+        const totalHoursSpentEating = findTotalHoursFromK(k, piles)
+
+        if(totalHoursSpentEating <= h) { // koko has time to spare,  (<= <-- since greater than OR equal, just assign to k and not k - 1)
+            right = k // not right = k - 1  since k could still be the answer, so dont exclude it
+        } else if (totalHoursSpentEating > h) { // koko needs more time
+            left = k + 1
+        }
+
+    }
+
+    return left
+};
+
+
+function findTotalHoursFromK(k, piles) {
+    let totalHours = 0;
+    for(let i = 0; i < piles.length; i++) {
+        totalHours += Math.ceil(piles[i] / k)
+    }
+    return totalHours
+}
