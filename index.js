@@ -2859,3 +2859,17 @@ function migratoryBirds(arr) {
     return Number(max[1])
 
 }
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+function gradingStudents(grades) {
+    const results = grades.map((p) => {
+        if (p < 38) return p;
+        const modulus = p % 5;
+        return modulus >= 3 ? p + (5 - modulus) : p;
+    })
+
+    return results;
+}
