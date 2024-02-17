@@ -2778,3 +2778,19 @@ function plusMinus(arr) {
     console.log( Number.parseFloat(zero / arr.length).toFixed(6) )
 
 }
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://www.hackerrank.com/challenges/birthday-cake-candles/problem?isFullScreen=true
+
+function birthdayCakeCandles(candles) {
+    const maxCandle = Math.max(...candles)
+    let canBlowOut = 0;
+
+    for(let i = 0; i < candles.length; i++) {
+        if(candles[i] === maxCandle) canBlowOut++
+    }
+
+    return canBlowOut
+
+}
