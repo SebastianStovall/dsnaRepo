@@ -2873,3 +2873,38 @@ function gradingStudents(grades) {
 
     return results;
 }
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/minimum-depth-of-binary-tree/
+
+var minDepth = function(root) {
+    if(!root) return 0
+
+    let count = 1
+    const queue = [root]
+
+    while(queue.length > 0) {
+        const size = queue.length
+
+        for(let i = 0; i < size; i++) { // level 2 --->     (2) -- (3)
+            let curr = queue.shift()
+
+            if(!curr.right && !curr.left) {
+                return count
+            }
+
+            if(curr.left) {
+                queue.push(curr.left)
+            }
+            if(curr.right) {
+                queue.push(curr.right)
+            }
+
+        }
+
+        count++
+    }
+
+};
