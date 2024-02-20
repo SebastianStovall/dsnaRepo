@@ -2908,3 +2908,28 @@ var minDepth = function(root) {
     }
 
 };
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/largest-number/
+
+var largestNumber = function(nums) {
+    const sorted = nums.sort((a, b) => {
+        const firstPos = Number( a.toString() + b.toString() )
+        const secondPos = Number( b.toString() + a.toString() )
+
+        if(firstPos > secondPos) {
+            return -1
+        } else {
+            return 1
+        }
+
+    })
+
+
+    console.log(sorted)
+    const result = sorted.join('')
+    return result[0] === '0' ? '0' : result
+
+};
