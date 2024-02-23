@@ -2933,3 +2933,30 @@ var largestNumber = function(nums) {
     return result[0] === '0' ? '0' : result
 
 };
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+
+var maxProfit = function(prices) {
+    if(prices.length <= 1) return 0
+
+    let cheapest = prices[0];
+    let maxProfit = 0
+
+    for(let i = 0; i < prices.length; i++) {
+        if(prices[i] < cheapest) {
+            cheapest = prices[i]
+        }
+
+        const profit = prices[i] - cheapest
+
+        if( profit > maxProfit) {
+            maxProfit = profit
+        }
+    }
+
+    return maxProfit
+
+};
