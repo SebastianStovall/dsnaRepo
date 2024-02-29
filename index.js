@@ -3043,3 +3043,25 @@ var maxDepth = function(root) {
 };
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/balanced-binary-tree/
+
+
+var isBalanced = function(root) {
+    let isBalanced = true
+
+    function dfs(root) {
+        if(!root) {
+            return 0 // 1.) bottom out the tree, height of nodes at bottom of tree are 0
+        }
+
+        const left = dfs(root.left)
+        const right = dfs(root.right)
+
+        if(Math.abs(left - right) > 1) isBalanced = false // 3.) determine if all subtrees are balanced (abs diff under 1) once you have the height of the left and right subtrees
+        return 1 + Math.max(left, right) // 2.) calculate the max height from any given node/subtree
+    }
+
+    dfs(root)
+    return isBalanced
+};
