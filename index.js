@@ -2976,3 +2976,28 @@ function isSameTree(p, q) {
 
     return left && right // return if left and right match
 }
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/diameter-of-binary-tree/
+
+var diameterOfBinaryTree = function(root) {
+    let maxD = 0;
+
+    const dft = (root) => {
+        if(!root) {
+            return 0 // 1.) bottom out the tree with DFT
+        }
+
+        const left = dft(root.left)
+        const right = dft(root.right)
+
+        maxD = Math.max(maxD, (left + right)) // 3.) use the height to calculate maxD of every subtree throughout the callstack
+
+        return 1 + Math.max(left, right) // 2.) calculate height (bottom up)
+    }
+
+    dft(root)
+    return maxD
+};
