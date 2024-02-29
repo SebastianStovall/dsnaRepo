@@ -2960,3 +2960,19 @@ var maxProfit = function(prices) {
     return maxProfit
 
 };
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+
+// https://leetcode.com/problems/same-tree/
+
+function isSameTree(p, q) {
+    if(!p && !q) return true // base case - if p and q are both null ---> return true
+    if((p && !q) || (!p && q)) return false // if no p but q, or if no q but p ---> return false
+    if(p.val !== q.val) return false // if p.val does not match q.val, return false
+
+    const left = isSameTree(p.left, q.left) // check left subtrees
+    const right = isSameTree(p.right, q.right) // check right subtrees
+
+    return left && right // return if left and right match
+}
