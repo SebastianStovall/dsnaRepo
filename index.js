@@ -3027,3 +3027,19 @@ var invertTree = function(root) {
 };
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/maximum-depth-of-binary-tree/
+
+
+var maxDepth = function(root) {
+    if(!root) {
+        return 0
+    }
+
+    const left = maxDepth(root.left)
+    const right = maxDepth(root.right)
+
+    return 1 + Math.max(left, right)
+};
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
