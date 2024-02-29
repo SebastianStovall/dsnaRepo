@@ -3001,3 +3001,29 @@ var diameterOfBinaryTree = function(root) {
     dft(root)
     return maxD
 };
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+
+// https://leetcode.com/problems/invert-binary-tree/
+
+
+var invertTree = function(root) {
+    function dft(root) {
+        if(!root) return
+
+        const left = root.left
+        const right = root.right
+
+        root.left = right
+        root.right = left
+
+        dft(root.left)
+        dft(root.right)
+    }
+
+    dft(root)
+    return root
+};
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
