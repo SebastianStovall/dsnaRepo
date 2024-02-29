@@ -3065,3 +3065,38 @@ var isBalanced = function(root) {
     dfs(root)
     return isBalanced
 };
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+var isSubtree = function(root, subRoot) {
+    let subTreeFound = false
+
+    function traverse(node) {
+        if(!node) return
+
+        const isSubTreeEqual = dfs(node, subRoot); // 2.) at each node, perform its own dfs traversal, comparing subtree to subRoot (both in structure and value)
+        if(isSubTreeEqual) subTreeFound = true // check if the subtree was found
+
+        traverse(node.left);
+        traverse(node.right);
+    }
+
+    traverse(root) // 1.) traverse the entire main tree
+    return subTreeFound
+};
+
+
+function dfs(node, subRoot) {
+    if(!node && !subRoot) return true
+    if(!node && subRoot) return false // return false if mismatch
+    if(node && !subRoot) return false // return false if mismatch
+    if(node.val !== subRoot.val) return false // return false if mismatch
+
+    const left = dfs(node.left, subRoot.left)
+    const right = dfs(node.right, subRoot.right)
+
+    return (left && right)
+}
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------- //
