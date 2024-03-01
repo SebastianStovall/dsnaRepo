@@ -3072,3 +3072,35 @@ var levelOrder = function(root) {
 
     return levelOrder
 };
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/binary-tree-right-side-view/
+
+var rightSideView = function(root) {
+    if(!root) return []
+    const levelOrder = [] // create levelOrder / BFT order
+
+    const queue = [root]
+    while(queue.length > 0) {
+        const queueLength = queue.length
+        const level = []
+        for(let i = 0; i < queueLength; i++) {
+            const curr = queue.shift()
+            level.push(curr.val)
+
+            if(curr && curr.left) queue.push(curr.left)
+            if(curr && curr.right) queue.push(curr.right)
+        }
+        levelOrder.push(level)
+    }
+
+    const result = [] // only collect nodes that are on the rightMost outer edge (level[level.length - 1])
+    for(let i = 0; i < levelOrder.length; i++) {
+        const nodesOnLevel = levelOrder[i]
+        result.push(nodesOnLevel[nodesOnLevel.length - 1])
+    }
+
+    return result
+
+};
