@@ -3047,3 +3047,28 @@ var lowestCommonAncestor = function(root, p, q) {
     return resultNode
 
 };
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/binary-tree-level-order-traversal/
+
+var levelOrder = function(root) {
+    if(!root) return []
+    const levelOrder = []
+
+    const queue = [root]
+    while(queue.length > 0) {
+        const queueLength = queue.length
+        const level = []
+        for(let i = 0; i < queueLength; i++) {
+            const curr = queue.shift()
+            level.push(curr.val)
+
+            if(curr && curr.left) queue.push(curr.left)
+            if(curr && curr.right) queue.push(curr.right)
+        }
+        levelOrder.push(level)
+    }
+
+    return levelOrder
+};
