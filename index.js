@@ -3104,3 +3104,28 @@ var rightSideView = function(root) {
     return result
 
 };
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/count-good-nodes-in-binary-tree/
+
+var goodNodes = function(root) {
+    let goodCount = 0;
+
+    function dfs(root, maxPathSum) {
+        if(!root) {
+            return
+        }
+
+        if(root.val >= maxPathSum) {
+            goodCount++
+            maxPathSum = root.val
+        }
+
+        dfs(root.left, maxPathSum)
+        dfs(root.right, maxPathSum)
+    }
+
+    dfs(root, root.val)
+    return goodCount
+};
