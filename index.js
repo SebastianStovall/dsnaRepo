@@ -3129,3 +3129,28 @@ var goodNodes = function(root) {
     dfs(root, root.val)
     return goodCount
 };
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/validate-binary-search-tree/
+
+
+var isValidBST = function(root) {
+    function dfs(root) {
+        if(!root) return true
+
+        const checkLeftSubtree = traverseLeft(root.left, root.val) // check if left subtree is a BST
+        const checkRightSubtree = traverseRight(root.right, root.val) // check if right subtree is a BST
+
+        if(!checkLeftSubtree || !checkRightSubtree) return false
+
+        const left = dfs(root.left)
+        const right = dfs(root.right)
+
+        return left && right
+    }
+
+    const checkBST = dfs(root) // check if each node/subtree is a BST
+    return checkBST
+};
