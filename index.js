@@ -3154,3 +3154,23 @@ var isValidBST = function(root) {
     const checkBST = dfs(root) // check if each node/subtree is a BST
     return checkBST
 };
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/kth-smallest-element-in-a-bst/
+
+
+var kthSmallest = function(root, k) {
+    const vals = []
+
+    function inOrderTraversal(root) {
+        if(!root) return
+
+        inOrderTraversal(root.left)
+        vals.push(root.val)
+        inOrderTraversal(root.right)
+    }
+
+    inOrderTraversal(root)
+    return vals[k - 1]
+};
