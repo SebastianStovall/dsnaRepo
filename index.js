@@ -3264,3 +3264,21 @@ var addTwoNumbers = function(l1, l2) {
 
     return dummy.next
 };
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/linked-list-cycle/
+
+var hasCycle = function(head) {
+    // Floyd's Tortoise & Hare Algorithm 0(1)
+    let slowPointer = head
+    let fastPointer = head
+
+    while(fastPointer && fastPointer.next) {
+        slowPointer = slowPointer.next
+        fastPointer = fastPointer.next.next
+        if(slowPointer === fastPointer) return true
+    }
+
+    return false
+};
