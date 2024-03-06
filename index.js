@@ -3174,3 +3174,27 @@ var kthSmallest = function(root, k) {
     inOrderTraversal(root)
     return vals[k - 1]
 };
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/merge-two-sorted-lists/
+
+var mergeTwoLists = function(list1, list2) {
+    let sortedLinkedList = new ListNode('remove this first value in the return by returning "sortedLinkedList.next" ');
+    let current = sortedLinkedList; // use a pointer in our newly created list to append sorted nodes
+
+    while (list1 && list2) {
+        if (list1.val <= list2.val) { // if list1 less than or equal, assign list1 as next
+            current.next = list1;
+            list1 = list1.next;
+        } else {
+            current.next = list2; // else, assign list2 as next
+            list2 = list2.next;
+        }
+        current = current.next;
+    }
+
+    current.next = list1 || list2;
+
+    return sortedLinkedList.next;
+};
