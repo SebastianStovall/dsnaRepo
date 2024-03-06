@@ -3198,3 +3198,38 @@ var mergeTwoLists = function(list1, list2) {
 
     return sortedLinkedList.next;
 };
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+
+var removeNthFromEnd = function(head, n) {
+    let current = head
+    let count = 1
+
+    while( current ) { // determine how many nodes are in the LinkedList
+        count++
+        current = current.next
+    }
+
+    const nodeToRemove = count - n // find the exact node to remove once you have the count
+    if(nodeToRemove === 1) return head.next // EDGE CASE - if you need to remove 1st node, simply return head.next
+
+    current = head // reset current and count
+    count = 1
+
+    while(count !== (nodeToRemove - 1)) { // go to node to remove - 1 (since no prev pointers exist)
+        count++
+        current = current.next
+    }
+
+    if(!current.next && !current.next.next) { // when severing node, if no current.next.next, simply assign current.next as null and return
+        current.next = null
+        return head
+    }
+
+    current.next = current.next.next // if current.next.next exists, severe the node, and reconnect to the rest of the list
+    return head
+
+
+};
