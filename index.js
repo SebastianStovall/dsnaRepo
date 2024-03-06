@@ -3233,3 +3233,34 @@ var removeNthFromEnd = function(head, n) {
 
 
 };
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+
+// https://leetcode.com/problems/add-two-numbers/
+
+var addTwoNumbers = function(l1, l2) {
+    let dummy = new ListNode('return dummy.next')
+    let current = dummy // use this to iterate through the result LinkedList and append digits
+
+    let carry = 0 // carry is initially 0
+
+    while(l1 || l2 || carry) {
+        const v1 = l1 ? l1.val : 0 // if you have nothing to add it with, add it with a 0 so avoid NaN
+        const v2 = l2 ? l2.val : 0 // BOTH v1 AND v2 could be 0... in which case your adding ONLY the carry
+
+        // HANDLE DIGIT BEING ADDED
+        let sum = v1 + v2 + carry
+        carry = Math.floor(sum / 10) // if sum is 10 or above, carry will be 1... else 0
+        sum = sum % 10 // gets the signficant digit (ex: 18 ---->  8)
+
+        current.next = new ListNode(sum) // add incoming digit to result LL
+
+        // UPDATE POINTERS FOR NEXT IERATION
+        current = current.next
+        l1 = l1 ? l1.next : null
+        l2 = l2 ? l2.next : null
+    }
+
+    return dummy.next
+};
