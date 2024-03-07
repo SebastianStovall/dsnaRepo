@@ -3004,281 +3004,315 @@ function dfs(node, subRoot) {
 
 // https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
 
+var lowestCommonAncestor = function (root, p, q) {
+  let deepestHeight = Infinity; // if a subTree fits, this will get reassigned if the height is deeper than the previous node found
+  let resultNode = null; // represents the deepest subtree that includes both p and q
 
-var lowestCommonAncestor = function(root, p, q) {
-    let deepestHeight = Infinity; // if a subTree fits, this will get reassigned if the height is deeper than the previous node found
-    let resultNode = null; // represents the deepest subtree that includes both p and q
+  const pVal = p.val; // keep track of the initial value of p
+  const qVal = q.val; // keep track of the initial value of q
+  let pFound = false;
+  let qFound = false;
 
-    const pVal = p.val // keep track of the initial value of p
-    const qVal = q.val // keep track of the initial value of q
-    let pFound = false
-    let qFound = false
-
-    function depthOfCurrNode(node) {
-        if(!node) {
-            return 0
-        }
-
-        if(node.val === pVal) pFound = true
-        if(node.val === qVal) qFound = true
-
-        const left = depthOfCurrNode(node.left)
-        const right = depthOfCurrNode(node.right)
-        return 1 + Math.max(left, right)
+  function depthOfCurrNode(node) {
+    if (!node) {
+      return 0;
     }
 
-    function traverse(rootNode) {
-        if(!rootNode) return
+    if (node.val === pVal) pFound = true;
+    if (node.val === qVal) qFound = true;
 
-        const depth = depthOfCurrNode(rootNode) // 2.) FIND DEPTH OF CURRENT SUBTREE
-        if( (pFound && qFound) && (depth < deepestHeight) ) { // 3.) if p and q are decesdants from this tree, and this node was found deeper in the tree
-            deepestHeight = depth
-            resultNode = rootNode
-        }
+    const left = depthOfCurrNode(node.left);
+    const right = depthOfCurrNode(node.right);
+    return 1 + Math.max(left, right);
+  }
 
-        pFound = false // reset before traversing next subtree
-        qFound = false // reset before traversing next subtree
+  function traverse(rootNode) {
+    if (!rootNode) return;
 
-        traverse(rootNode.left)
-        traverse(rootNode.right)
+    const depth = depthOfCurrNode(rootNode); // 2.) FIND DEPTH OF CURRENT SUBTREE
+    if (pFound && qFound && depth < deepestHeight) {
+      // 3.) if p and q are decesdants from this tree, and this node was found deeper in the tree
+      deepestHeight = depth;
+      resultNode = rootNode;
     }
 
-    traverse(root) // 1.) TRAVERSE ENTIRE TREE
-    return resultNode
+    pFound = false; // reset before traversing next subtree
+    qFound = false; // reset before traversing next subtree
 
+    traverse(rootNode.left);
+    traverse(rootNode.right);
+  }
+
+  traverse(root); // 1.) TRAVERSE ENTIRE TREE
+  return resultNode;
 };
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // https://leetcode.com/problems/binary-tree-level-order-traversal/
 
-var levelOrder = function(root) {
-    if(!root) return []
-    const levelOrder = []
+var levelOrder = function (root) {
+  if (!root) return [];
+  const levelOrder = [];
 
-    const queue = [root]
-    while(queue.length > 0) {
-        const queueLength = queue.length
-        const level = []
-        for(let i = 0; i < queueLength; i++) {
-            const curr = queue.shift()
-            level.push(curr.val)
+  const queue = [root];
+  while (queue.length > 0) {
+    const queueLength = queue.length;
+    const level = [];
+    for (let i = 0; i < queueLength; i++) {
+      const curr = queue.shift();
+      level.push(curr.val);
 
-            if(curr && curr.left) queue.push(curr.left)
-            if(curr && curr.right) queue.push(curr.right)
-        }
-        levelOrder.push(level)
+      if (curr && curr.left) queue.push(curr.left);
+      if (curr && curr.right) queue.push(curr.right);
     }
+    levelOrder.push(level);
+  }
 
-    return levelOrder
+  return levelOrder;
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // https://leetcode.com/problems/binary-tree-right-side-view/
 
-var rightSideView = function(root) {
-    if(!root) return []
-    const levelOrder = [] // create levelOrder / BFT order
+var rightSideView = function (root) {
+  if (!root) return [];
+  const levelOrder = []; // create levelOrder / BFT order
 
-    const queue = [root]
-    while(queue.length > 0) {
-        const queueLength = queue.length
-        const level = []
-        for(let i = 0; i < queueLength; i++) {
-            const curr = queue.shift()
-            level.push(curr.val)
+  const queue = [root];
+  while (queue.length > 0) {
+    const queueLength = queue.length;
+    const level = [];
+    for (let i = 0; i < queueLength; i++) {
+      const curr = queue.shift();
+      level.push(curr.val);
 
-            if(curr && curr.left) queue.push(curr.left)
-            if(curr && curr.right) queue.push(curr.right)
-        }
-        levelOrder.push(level)
+      if (curr && curr.left) queue.push(curr.left);
+      if (curr && curr.right) queue.push(curr.right);
     }
+    levelOrder.push(level);
+  }
 
-    const result = [] // only collect nodes that are on the rightMost outer edge (level[level.length - 1])
-    for(let i = 0; i < levelOrder.length; i++) {
-        const nodesOnLevel = levelOrder[i]
-        result.push(nodesOnLevel[nodesOnLevel.length - 1])
-    }
+  const result = []; // only collect nodes that are on the rightMost outer edge (level[level.length - 1])
+  for (let i = 0; i < levelOrder.length; i++) {
+    const nodesOnLevel = levelOrder[i];
+    result.push(nodesOnLevel[nodesOnLevel.length - 1]);
+  }
 
-    return result
-
+  return result;
 };
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // https://leetcode.com/problems/count-good-nodes-in-binary-tree/
 
-var goodNodes = function(root) {
-    let goodCount = 0;
+var goodNodes = function (root) {
+  let goodCount = 0;
 
-    function dfs(root, maxPathSum) {
-        if(!root) {
-            return
-        }
-
-        if(root.val >= maxPathSum) {
-            goodCount++
-            maxPathSum = root.val
-        }
-
-        dfs(root.left, maxPathSum)
-        dfs(root.right, maxPathSum)
+  function dfs(root, maxPathSum) {
+    if (!root) {
+      return;
     }
 
-    dfs(root, root.val)
-    return goodCount
-};
+    if (root.val >= maxPathSum) {
+      goodCount++;
+      maxPathSum = root.val;
+    }
 
+    dfs(root.left, maxPathSum);
+    dfs(root.right, maxPathSum);
+  }
+
+  dfs(root, root.val);
+  return goodCount;
+};
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // https://leetcode.com/problems/validate-binary-search-tree/
 
+var isValidBST = function (root) {
+  function dfs(root) {
+    if (!root) return true;
 
-var isValidBST = function(root) {
-    function dfs(root) {
-        if(!root) return true
+    const checkLeftSubtree = traverseLeft(root.left, root.val); // check if left subtree is a BST
+    const checkRightSubtree = traverseRight(root.right, root.val); // check if right subtree is a BST
 
-        const checkLeftSubtree = traverseLeft(root.left, root.val) // check if left subtree is a BST
-        const checkRightSubtree = traverseRight(root.right, root.val) // check if right subtree is a BST
+    if (!checkLeftSubtree || !checkRightSubtree) return false;
 
-        if(!checkLeftSubtree || !checkRightSubtree) return false
+    const left = dfs(root.left);
+    const right = dfs(root.right);
 
-        const left = dfs(root.left)
-        const right = dfs(root.right)
+    return left && right;
+  }
 
-        return left && right
-    }
-
-    const checkBST = dfs(root) // check if each node/subtree is a BST
-    return checkBST
+  const checkBST = dfs(root); // check if each node/subtree is a BST
+  return checkBST;
 };
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // https://leetcode.com/problems/kth-smallest-element-in-a-bst/
 
+var kthSmallest = function (root, k) {
+  const vals = [];
 
-var kthSmallest = function(root, k) {
-    const vals = []
+  function inOrderTraversal(root) {
+    if (!root) return;
 
-    function inOrderTraversal(root) {
-        if(!root) return
+    inOrderTraversal(root.left);
+    vals.push(root.val);
+    inOrderTraversal(root.right);
+  }
 
-        inOrderTraversal(root.left)
-        vals.push(root.val)
-        inOrderTraversal(root.right)
-    }
-
-    inOrderTraversal(root)
-    return vals[k - 1]
+  inOrderTraversal(root);
+  return vals[k - 1];
 };
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // https://leetcode.com/problems/merge-two-sorted-lists/
 
-var mergeTwoLists = function(list1, list2) {
-    let sortedLinkedList = new ListNode('remove this first value in the return by returning "sortedLinkedList.next" ');
-    let current = sortedLinkedList; // use a pointer in our newly created list to append sorted nodes
+var mergeTwoLists = function (list1, list2) {
+  let sortedLinkedList = new ListNode(
+    'remove this first value in the return by returning "sortedLinkedList.next" '
+  );
+  let current = sortedLinkedList; // use a pointer in our newly created list to append sorted nodes
 
-    while (list1 && list2) {
-        if (list1.val <= list2.val) { // if list1 less than or equal, assign list1 as next
-            current.next = list1;
-            list1 = list1.next;
-        } else {
-            current.next = list2; // else, assign list2 as next
-            list2 = list2.next;
-        }
-        current = current.next;
+  while (list1 && list2) {
+    if (list1.val <= list2.val) {
+      // if list1 less than or equal, assign list1 as next
+      current.next = list1;
+      list1 = list1.next;
+    } else {
+      current.next = list2; // else, assign list2 as next
+      list2 = list2.next;
     }
+    current = current.next;
+  }
 
-    current.next = list1 || list2;
+  current.next = list1 || list2;
 
-    return sortedLinkedList.next;
+  return sortedLinkedList.next;
 };
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // https://leetcode.com/problems/remove-nth-node-from-end-of-list/
 
-var removeNthFromEnd = function(head, n) {
-    let current = head
-    let count = 1
+var removeNthFromEnd = function (head, n) {
+  let current = head;
+  let count = 1;
 
-    while( current ) { // determine how many nodes are in the LinkedList
-        count++
-        current = current.next
-    }
+  while (current) {
+    // determine how many nodes are in the LinkedList
+    count++;
+    current = current.next;
+  }
 
-    const nodeToRemove = count - n // find the exact node to remove once you have the count
-    if(nodeToRemove === 1) return head.next // EDGE CASE - if you need to remove 1st node, simply return head.next
+  const nodeToRemove = count - n; // find the exact node to remove once you have the count
+  if (nodeToRemove === 1) return head.next; // EDGE CASE - if you need to remove 1st node, simply return head.next
 
-    current = head // reset current and count
-    count = 1
+  current = head; // reset current and count
+  count = 1;
 
-    while(count !== (nodeToRemove - 1)) { // go to node to remove - 1 (since no prev pointers exist)
-        count++
-        current = current.next
-    }
+  while (count !== nodeToRemove - 1) {
+    // go to node to remove - 1 (since no prev pointers exist)
+    count++;
+    current = current.next;
+  }
 
-    if(!current.next && !current.next.next) { // when severing node, if no current.next.next, simply assign current.next as null and return
-        current.next = null
-        return head
-    }
+  if (!current.next && !current.next.next) {
+    // when severing node, if no current.next.next, simply assign current.next as null and return
+    current.next = null;
+    return head;
+  }
 
-    current.next = current.next.next // if current.next.next exists, severe the node, and reconnect to the rest of the list
-    return head
-
-
+  current.next = current.next.next; // if current.next.next exists, severe the node, and reconnect to the rest of the list
+  return head;
 };
-
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
 
 // https://leetcode.com/problems/add-two-numbers/
 
-var addTwoNumbers = function(l1, l2) {
-    let dummy = new ListNode('return dummy.next')
-    let current = dummy // use this to iterate through the result LinkedList and append digits
+var addTwoNumbers = function (l1, l2) {
+  let dummy = new ListNode("return dummy.next");
+  let current = dummy; // use this to iterate through the result LinkedList and append digits
 
-    let carry = 0 // carry is initially 0
+  let carry = 0; // carry is initially 0
 
-    while(l1 || l2 || carry) {
-        const v1 = l1 ? l1.val : 0 // if you have nothing to add it with, add it with a 0 so avoid NaN
-        const v2 = l2 ? l2.val : 0 // BOTH v1 AND v2 could be 0... in which case your adding ONLY the carry
+  while (l1 || l2 || carry) {
+    const v1 = l1 ? l1.val : 0; // if you have nothing to add it with, add it with a 0 so avoid NaN
+    const v2 = l2 ? l2.val : 0; // BOTH v1 AND v2 could be 0... in which case your adding ONLY the carry
 
-        // HANDLE DIGIT BEING ADDED
-        let sum = v1 + v2 + carry
-        carry = Math.floor(sum / 10) // if sum is 10 or above, carry will be 1... else 0
-        sum = sum % 10 // gets the signficant digit (ex: 18 ---->  8)
+    // HANDLE DIGIT BEING ADDED
+    let sum = v1 + v2 + carry;
+    carry = Math.floor(sum / 10); // if sum is 10 or above, carry will be 1... else 0
+    sum = sum % 10; // gets the signficant digit (ex: 18 ---->  8)
 
-        current.next = new ListNode(sum) // add incoming digit to result LL
+    current.next = new ListNode(sum); // add incoming digit to result LL
 
-        // UPDATE POINTERS FOR NEXT IERATION
-        current = current.next
-        l1 = l1 ? l1.next : null
-        l2 = l2 ? l2.next : null
-    }
+    // UPDATE POINTERS FOR NEXT IERATION
+    current = current.next;
+    l1 = l1 ? l1.next : null;
+    l2 = l2 ? l2.next : null;
+  }
 
-    return dummy.next
+  return dummy.next;
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // https://leetcode.com/problems/linked-list-cycle/
 
-var hasCycle = function(head) {
-    // Floyd's Tortoise & Hare Algorithm 0(1)
-    let slowPointer = head
-    let fastPointer = head
+var hasCycle = function (head) {
+  // Floyd's Tortoise & Hare Algorithm 0(1)
+  let slowPointer = head;
+  let fastPointer = head;
 
-    while(fastPointer && fastPointer.next) {
-        slowPointer = slowPointer.next
-        fastPointer = fastPointer.next.next
-        if(slowPointer === fastPointer) return true
+  while (fastPointer && fastPointer.next) {
+    slowPointer = slowPointer.next;
+    fastPointer = fastPointer.next.next;
+    if (slowPointer === fastPointer) return true;
+  }
+
+  return false;
+};
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/find-the-duplicate-number/
+
+var findDuplicate = function (nums) {
+  let slow = 0;
+  let fast = 0;
+
+  while (true) {
+    // This SIMULATES the traversal of a linked list where the values of the array serve as pointers to the next element (a linked-list cycle is guarenteed to occur)
+    // A cycle means that (slow.next will NEVER point to NULL) AND (fast.next.next will NEVER point to NULL)
+
+    slow = nums[slow]; // slow = slow.next
+
+    fast = nums[fast]; // fast = fast.next.next
+    fast = nums[fast];
+
+    if (slow === fast) {
+      // *** because slow and fast pointers have met, this PROVES a CYCLE MUST EXIST
+      break;
     }
+  }
 
-    return false
+  // STEP 2 -- Find Where The Cycle BEGINS (THIS REPRESENTS THE REPEATED NUMBER!)
+  // leave slow where it is
+  // initiate slow2 pointer, the intersection between these 2 pointers represents where the cycle begins, which also means its our repeating value
+  let slow2 = 0;
+  while (true) {
+    slow = nums[slow];
+    slow2 = nums[slow2];
+    if (slow === slow2) {
+      return slow;
+    }
+  }
 };
