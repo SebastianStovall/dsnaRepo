@@ -3317,48 +3317,82 @@ var findDuplicate = function (nums) {
   }
 };
 
-
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // https://leetcode.com/problems/reorder-list/
 
-var reorderList = function(head) {
-    let curr = head
-    let n = 0 // length of list input
-    let nodes = []
-    while(curr) {
-        nodes.push(curr.val) // take note of every node value so we can use to get a new merged result LinkedList
-        n++
-        curr = curr.next
+var reorderList = function (head) {
+  let curr = head;
+  let n = 0; // length of list input
+  let nodes = [];
+  while (curr) {
+    nodes.push(curr.val); // take note of every node value so we can use to get a new merged result LinkedList
+    n++;
+    curr = curr.next;
+  }
+
+  let i = 0; // pointer at start
+  let j = nodes.length - 1; // pointer at end
+  let flag = true; // tells which pointer to use when merging
+
+  let newList = new ListNode(
+    "This node gets deleted later so doesnt matter what i put here"
+  );
+  let current = newList; // pointer used to build out our new LinkedList
+
+  // Merge the list into a new list using two pointers from the OG list node values
+  while (n > 0) {
+    if (flag === false) {
+      let dummyNode = new ListNode(nodes[j]);
+      current.next = dummyNode;
+      j--;
+      flag = true;
+    } else {
+      let dummyNode = new ListNode(nodes[i]);
+      current.next = dummyNode;
+      i++;
+      flag = false;
     }
+    n--;
+    current = current.next;
+  }
 
-    let i = 0 // pointer at start
-    let j = nodes.length - 1 // pointer at end
-    let flag = true // tells which pointer to use when merging
+  newList = newList.next; // gets rid of the starting node since we dont want it anyway in the merged list
 
-    let newList = new ListNode('This node gets deleted later so doesnt matter what i put here')
-    let current = newList // pointer used to build out our new LinkedList
+  head.next = newList.next; // MODIFIES LIST IN PLACE
+  // this line is a bit weird, but I do this because I can only change node's (head.next), and the real start of the newList is newList.next (needs to start at position 2 to work)
+};
 
-    // Merge the list into a new list using two pointers from the OG list node values
-    while(n > 0) {
-        if(flag === false) {
-            let dummyNode = new ListNode(nodes[j])
-            current.next = dummyNode
-            j--
-            flag = true
-        } else {
-            let dummyNode = new ListNode(nodes[i])
-            current.next = dummyNode
-            i++
-            flag = false
-        }
-        n--
-        current = current.next
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/search-in-rotated-sorted-array/
+
+var search = function (nums, target) {
+  let left = 0;
+  let right = nums.length - 1;
+
+  while (left <= right) {
+    const midpoint = Math.floor(right + left / 2);
+    if (nums[midpoint] === target) return midpoint;
+
+    if (nums[left] <= nums[midpoint]) {
+      // LEFT
+      if (nums[left] <= target && target < nums[midpoint]) {
+        // is target located on this side?
+        right = midpoint - 1;
+      } else {
+        left = midpoint + 1;
+      }
+    } else {
+      // RIGHT
+      if (nums[right] >= target && nums[midpoint] < target) {
+        // is target located on this side?
+        left = midpoint + 1;
+      } else {
+        right = midpoint - 1;
+      }
     }
+  }
 
-    newList = newList.next // gets rid of the starting node since we dont want it anyway in the merged list
-
-    head.next = newList.next // MODIFIES LIST IN PLACE
-    // this line is a bit weird, but I do this because I can only change node's (head.next), and the real start of the newList is newList.next (needs to start at position 2 to work)
-
+  return -1;
 };
