@@ -3316,3 +3316,49 @@ var findDuplicate = function (nums) {
     }
   }
 };
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/reorder-list/
+
+var reorderList = function(head) {
+    let curr = head
+    let n = 0 // length of list input
+    let nodes = []
+    while(curr) {
+        nodes.push(curr.val) // take note of every node value so we can use to get a new merged result LinkedList
+        n++
+        curr = curr.next
+    }
+
+    let i = 0 // pointer at start
+    let j = nodes.length - 1 // pointer at end
+    let flag = true // tells which pointer to use when merging
+
+    let newList = new ListNode('This node gets deleted later so doesnt matter what i put here')
+    let current = newList // pointer used to build out our new LinkedList
+
+    // Merge the list into a new list using two pointers from the OG list node values
+    while(n > 0) {
+        if(flag === false) {
+            let dummyNode = new ListNode(nodes[j])
+            current.next = dummyNode
+            j--
+            flag = true
+        } else {
+            let dummyNode = new ListNode(nodes[i])
+            current.next = dummyNode
+            i++
+            flag = false
+        }
+        n--
+        current = current.next
+    }
+
+    newList = newList.next // gets rid of the starting node since we dont want it anyway in the merged list
+
+    head.next = newList.next // MODIFIES LIST IN PLACE
+    // this line is a bit weird, but I do this because I can only change node's (head.next), and the real start of the newList is newList.next (needs to start at position 2 to work)
+
+};
