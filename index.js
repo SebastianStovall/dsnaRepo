@@ -3425,3 +3425,65 @@ var copyRandomList = function(head) {
 
     return hashMap.get(head); // return the head of the copied linked list
 };
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+class ListNode {
+    constructor(key, value) {
+        this.key = key;
+        this.value = value;
+        this.prev = null;
+        this.next = null;
+    }
+}
+
+var LRUCache = function(capacity) {
+    this.capacity = capacity;
+    this.map = new Map();
+    this.head = new ListNode();
+    this.tail = new ListNode();
+    this.head.next = this.tail;
+    this.tail.prev = this.head;
+};
+
+LRUCache.prototype.addToHead = function(node) {
+    node.prev = this.head;
+    node.next = this.head.next;
+    this.head.next.prev = node;
+    this.head.next = node;
+};
+
+LRUCache.prototype.removeNode = function(node) {
+    node.prev.next = node.next;
+    node.next.prev = node.prev;
+};
+
+LRUCache.prototype.get = function(key) {
+    if (this.map.has(key)) {
+        const node = this.map.get(key);
+        this.removeNode(node);
+        this.addToHead(node);
+        return node.value;
+    }
+    return -1;
+};
+
+LRUCache.prototype.put = function(key, value) {
+    if (this.map.has(key)) {
+        const node = this.map.get(key);
+        node.value = value;
+        this.removeNode(node);
+        this.addToHead(node);
+    } else {
+        if (this.map.size === this.capacity) {
+            const tail = this.tail.prev;
+            this.removeNode(tail);
+            this.map.delete(tail.key);
+        }
+        const newNode = new ListNode(key, value);
+        this.map.set(key, newNode);
+        this.addToHead(newNode);
+    }
+};
