@@ -3396,3 +3396,32 @@ var search = function (nums, target) {
 
   return -1;
 };
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/copy-list-with-random-pointer/
+
+var copyRandomList = function(head) {
+    const hashMap = new Map(); // Use Map instead of object
+    hashMap.set(null, null) // if hashMap.get(curr.next) === null, this will handle that edge case
+
+    let curr = head;
+    while (curr) {
+        const copy = new Node(curr.val); // allocate new memory for each node in original LL
+        hashMap.set(curr, copy); // set the copy of the node inside of the hashMap
+
+        curr = curr.next;
+    }
+
+    curr = head;
+    while (curr) { // perform a double pass in order to link the next and random pointers to the node copies
+        const copy = hashMap.get(curr); // retreive the copy
+        copy.next = hashMap.get(curr.next); // assign copy.next to the next copy by USING the ORGINAL REFERENCE's .next property
+        copy.random = hashMap.get(curr.random); // assign copy.random to the next random copy USING the ORGINAL REFERENCE's .random property
+
+        curr = curr.next;
+    }
+
+    return hashMap.get(head); // return the head of the copied linked list
+};
