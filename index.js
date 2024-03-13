@@ -3397,113 +3397,110 @@ var search = function (nums, target) {
   return -1;
 };
 
-
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // https://leetcode.com/problems/copy-list-with-random-pointer/
 
-var copyRandomList = function(head) {
-    const hashMap = new Map(); // Use Map instead of object
-    hashMap.set(null, null) // if hashMap.get(curr.next) === null, this will handle that edge case
+var copyRandomList = function (head) {
+  const hashMap = new Map(); // Use Map instead of object
+  hashMap.set(null, null); // if hashMap.get(curr.next) === null, this will handle that edge case
 
-    let curr = head;
-    while (curr) {
-        const copy = new Node(curr.val); // allocate new memory for each node in original LL
-        hashMap.set(curr, copy); // set the copy of the node inside of the hashMap
+  let curr = head;
+  while (curr) {
+    const copy = new Node(curr.val); // allocate new memory for each node in original LL
+    hashMap.set(curr, copy); // set the copy of the node inside of the hashMap
 
-        curr = curr.next;
-    }
+    curr = curr.next;
+  }
 
-    curr = head;
-    while (curr) { // perform a double pass in order to link the next and random pointers to the node copies
-        const copy = hashMap.get(curr); // retreive the copy
-        copy.next = hashMap.get(curr.next); // assign copy.next to the next copy by USING the ORGINAL REFERENCE's .next property
-        copy.random = hashMap.get(curr.random); // assign copy.random to the next random copy USING the ORGINAL REFERENCE's .random property
+  curr = head;
+  while (curr) {
+    // perform a double pass in order to link the next and random pointers to the node copies
+    const copy = hashMap.get(curr); // retreive the copy
+    copy.next = hashMap.get(curr.next); // assign copy.next to the next copy by USING the ORGINAL REFERENCE's .next property
+    copy.random = hashMap.get(curr.random); // assign copy.random to the next random copy USING the ORGINAL REFERENCE's .random property
 
-        curr = curr.next;
-    }
+    curr = curr.next;
+  }
 
-    return hashMap.get(head); // return the head of the copied linked list
+  return hashMap.get(head); // return the head of the copied linked list
 };
-
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
-
 class ListNode {
-    constructor(key, value) {
-        this.key = key;
-        this.value = value;
-        this.prev = null;
-        this.next = null;
-    }
+  constructor(key, value) {
+    this.key = key;
+    this.value = value;
+    this.prev = null;
+    this.next = null;
+  }
 }
 
-var LRUCache = function(capacity) {
-    this.capacity = capacity;
-    this.map = new Map();
-    this.head = new ListNode();
-    this.tail = new ListNode();
-    this.head.next = this.tail;
-    this.tail.prev = this.head;
+var LRUCache = function (capacity) {
+  this.capacity = capacity;
+  this.map = new Map();
+  this.head = new ListNode();
+  this.tail = new ListNode();
+  this.head.next = this.tail;
+  this.tail.prev = this.head;
 };
 
-LRUCache.prototype.addToHead = function(node) {
-    node.prev = this.head;
-    node.next = this.head.next;
-    this.head.next.prev = node;
-    this.head.next = node;
+LRUCache.prototype.addToHead = function (node) {
+  node.prev = this.head;
+  node.next = this.head.next;
+  this.head.next.prev = node;
+  this.head.next = node;
 };
 
-LRUCache.prototype.removeNode = function(node) {
-    node.prev.next = node.next;
-    node.next.prev = node.prev;
+LRUCache.prototype.removeNode = function (node) {
+  node.prev.next = node.next;
+  node.next.prev = node.prev;
 };
 
-LRUCache.prototype.get = function(key) {
-    if (this.map.has(key)) {
-        const node = this.map.get(key);
-        this.removeNode(node);
-        this.addToHead(node);
-        return node.value;
+LRUCache.prototype.get = function (key) {
+  if (this.map.has(key)) {
+    const node = this.map.get(key);
+    this.removeNode(node);
+    this.addToHead(node);
+    return node.value;
+  }
+  return -1;
+};
+
+LRUCache.prototype.put = function (key, value) {
+  if (this.map.has(key)) {
+    const node = this.map.get(key);
+    node.value = value;
+    this.removeNode(node);
+    this.addToHead(node);
+  } else {
+    if (this.map.size === this.capacity) {
+      const tail = this.tail.prev;
+      this.removeNode(tail);
+      this.map.delete(tail.key);
     }
-    return -1;
+    const newNode = new ListNode(key, value);
+    this.map.set(key, newNode);
+    this.addToHead(newNode);
+  }
 };
-
-LRUCache.prototype.put = function(key, value) {
-    if (this.map.has(key)) {
-        const node = this.map.get(key);
-        node.value = value;
-        this.removeNode(node);
-        this.addToHead(node);
-    } else {
-        if (this.map.size === this.capacity) {
-            const tail = this.tail.prev;
-            this.removeNode(tail);
-            this.map.delete(tail.key);
-        }
-        const newNode = new ListNode(key, value);
-        this.map.set(key, newNode);
-        this.addToHead(newNode);
-    }
-};
-
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // https://leetcode.com/problems/two-sum/
 
-var twoSum = function(nums, target) {
-    const hashmap = {}
+var twoSum = function (nums, target) {
+  const hashmap = {};
 
-    for(let i = 0; i < nums.length; i++) {
-        const complement = target - nums[i] // get complement's value by getting the difference between target and nums[i]
-        if(hashmap[complement] !== undefined) { // check if the complement (along with the complement's index) currently exists in the hashmap
-            return [i, hashmap[complement]] // if so, return current index along with complement index
-        }
-        hashmap[nums[i]] = i // add the current value along with index (will be used as a complement in future iterations)
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i]; // get complement's value by getting the difference between target and nums[i]
+    if (hashmap[complement] !== undefined) {
+      // check if the complement (along with the complement's index) currently exists in the hashmap
+      return [i, hashmap[complement]]; // if so, return current index along with complement index
     }
-
+    hashmap[nums[i]] = i; // add the current value along with index (will be used as a complement in future iterations)
+  }
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
@@ -3511,43 +3508,45 @@ var twoSum = function(nums, target) {
 // https://www.hackerrank.com/challenges/insert-a-node-at-the-tail-of-a-linked-list/problem?isFullScreen=true
 
 function insertNodeAtTail(head, data) {
-    const newNode = new SinglyLinkedListNode(data);
+  const newNode = new SinglyLinkedListNode(data);
 
-    if (!head) {
-        head = newNode;
-    } else {
-        let current = head;
-        while (current.next) {
-            current = current.next;
-        }
-        current.next = newNode;
+  if (!head) {
+    head = newNode;
+  } else {
+    let current = head;
+    while (current.next) {
+      current = current.next;
     }
+    current.next = newNode;
+  }
 
-    return head;
+  return head;
 }
 
 function printLinkedList(head) {
-    let current = head;
-    while (current) {
-        console.log(current.data);
-        current = current.next;
-    }
+  let current = head;
+  while (current) {
+    console.log(current.data);
+    current = current.next;
+  }
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
+// https://www.hackerrank.com/challenges/print-the-elements-of-a-linked-list/problem
 
+function printLinkedList(head) {
+  let current = head;
+  while (current) {
+    console.log(current.data);
+    current = current.next;
+  }
+}
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
-
-
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
-
-
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
-
-
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
