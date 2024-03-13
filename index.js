@@ -3548,9 +3548,9 @@ function printLinkedList(head) {
 // https://www.hackerrank.com/challenges/insert-a-node-at-the-head-of-a-linked-list/problem?isFullScreen=true
 
 function insertNodeAtHead(llist, data) {
-    const newNode = new SinglyLinkedListNode(data);
-    newNode.next = llist;
-    return newNode;
+  const newNode = new SinglyLinkedListNode(data);
+  newNode.next = llist;
+  return newNode;
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
@@ -3558,31 +3558,60 @@ function insertNodeAtHead(llist, data) {
 // https://www.hackerrank.com/challenges/insert-a-node-at-a-specific-position-in-a-linked-list/problem?isFullScreen=true
 
 function insertNodeAtPosition(head, data, position) {
-    const newNode = new SinglyLinkedListNode(data);
+  const newNode = new SinglyLinkedListNode(data);
 
-    if (position === 0) {
-        newNode.next = head;
-        return newNode;
-    } else {
-        let current = head;
-        let prev = null;
-        let currentPosition = 0;
+  if (position === 0) {
+    newNode.next = head;
+    return newNode;
+  } else {
+    let current = head;
+    let prev = null;
+    let currentPosition = 0;
 
-        while (currentPosition < position && current) {
-            prev = current;
-            current = current.next;
-            currentPosition++;
-        }
-
-        if (prev) {
-            prev.next = newNode;
-            newNode.next = current;
-        }
-
-        return head;
+    while (currentPosition < position && current) {
+      prev = current;
+      current = current.next;
+      currentPosition++;
     }
+
+    if (prev) {
+      prev.next = newNode;
+      newNode.next = current;
+    }
+
+    return head;
+  }
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://www.hackerrank.com/challenges/delete-a-node-from-a-linked-list/problem?isFullScreen=true
+
+function deleteNode(llist, position) {
+  if (!llist) {
+    return null; // If the list is empty, return null
+  }
+
+  if (position === 0) {
+    return llist.next; // If deleting the head node, return the next node
+  }
+
+  let current = llist;
+  let prev = null;
+  let currentPosition = 0;
+
+  while (currentPosition < position && current) {
+    prev = current;
+    current = current.next;
+    currentPosition++;
+  }
+
+  if (!current) {
+    return llist; // If position is out of bounds, return the original list
+  }
+
+  prev.next = current.next; // Remove the node by adjusting pointers
+  return llist;
+}
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
