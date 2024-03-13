@@ -3487,3 +3487,21 @@ LRUCache.prototype.put = function(key, value) {
         this.addToHead(newNode);
     }
 };
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/two-sum/
+
+var twoSum = function(nums, target) {
+    const hashmap = {}
+
+    for(let i = 0; i < nums.length; i++) {
+        const complement = target - nums[i] // get complement's value by getting the difference between target and nums[i]
+        if(hashmap[complement] !== undefined) { // check if the complement (along with the complement's index) currently exists in the hashmap
+            return [i, hashmap[complement]] // if so, return current index along with complement index
+        }
+        hashmap[nums[i]] = i // add the current value along with index (will be used as a complement in future iterations)
+    }
+
+};
