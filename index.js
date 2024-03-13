@@ -3555,6 +3555,34 @@ function insertNodeAtHead(llist, data) {
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
+// https://www.hackerrank.com/challenges/insert-a-node-at-a-specific-position-in-a-linked-list/problem?isFullScreen=true
+
+function insertNodeAtPosition(head, data, position) {
+    const newNode = new SinglyLinkedListNode(data);
+
+    if (position === 0) {
+        newNode.next = head;
+        return newNode;
+    } else {
+        let current = head;
+        let prev = null;
+        let currentPosition = 0;
+
+        while (currentPosition < position && current) {
+            prev = current;
+            current = current.next;
+            currentPosition++;
+        }
+
+        if (prev) {
+            prev.next = newNode;
+            newNode.next = current;
+        }
+
+        return head;
+    }
+}
+
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
