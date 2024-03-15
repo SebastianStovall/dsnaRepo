@@ -3615,3 +3615,41 @@ function deleteNode(llist, position) {
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+var orangesRotting = function(grid) {
+
+    minutes = 0;
+    let totalFreshCount = 0
+
+    const queue = []
+
+    for(let r = 0; r < grid.length; r++) {
+        const row = grid[r]
+        for(let c = 0; c < row.length; c++) {
+            if(grid[r][c] === 1 ) totalFreshCount++
+            if(grid[r][c] === 2 ) queue.push([r,c])
+        }
+    }
+
+    if(totalFreshCount === 0) return 0
+
+    while(queue.length >= 1) {
+        const level = queue.length
+        for(let i = 0; i < level; i++) {
+            const [row, col] = queue.shift()
+            const neighbors = getNeighbors(grid, row, col)
+            for(let n of neighbors) {
+                grid[n[0]][n[1]] = 2;
+                totalFreshCount--
+                queue.push(n)
+            }
+
+        }
+        minutes++
+    }
+
+    return totalFreshCount === 0 ? minutes - 1 : -1;
+};
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------- //
