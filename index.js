@@ -3698,3 +3698,30 @@ function minimumPasses(m, w, p, n) {
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+function poisonousPlants(p) {
+    let days = 0;
+    let stack = [];
+    let maxDays = 0;
+
+    for (let i = 0; i < p.length; i++) {
+        let deathDays = 0;
+
+        while (stack.length > 0 && p[i] <= stack[stack.length - 1].pesticide) {
+            deathDays = Math.max(deathDays, stack.pop().days);
+        }
+
+        if (stack.length === 0) {
+            deathDays = 0;
+        } else {
+            deathDays++;
+        }
+
+        maxDays = Math.max(maxDays, deathDays);
+        stack.push({ pesticide: p[i], days: deathDays });
+    }
+
+    return maxDays;
+}
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------ //
