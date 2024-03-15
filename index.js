@@ -3653,3 +3653,48 @@ var orangesRotting = function(grid) {
 };
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+function minimumPasses(m, w, p, n) {
+    let candies = 0;
+    let passes = 0;
+    let minPasses = Math.ceil(n / (m * w));
+
+    while (passes < minPasses) {
+        const passesLeft = minPasses - passes;
+        const candiesPerPass = m * w;
+        const passesNeededForPurchases = Math.ceil((p - candies) / candiesPerPass);
+
+        if (passesLeft >= passesNeededForPurchases) {
+            candies += passesNeededForPurchases * candiesPerPass;
+            passes += passesNeededForPurchases;
+        } else {
+            const remainingCandies = candiesPerPass * passesLeft;
+            candies += remainingCandies;
+            passes += passesLeft;
+            break;
+        }
+
+        const totalCandies = candies + (m * w);
+        const newMachines = Math.floor(totalCandies / p);
+        const newWorkers = Math.floor(totalCandies / p);
+
+        if (newMachines === 0 || newWorkers === 0) {
+            const remainingPasses = Math.ceil((n - candies) / (m * w));
+            passes += remainingPasses;
+            break;
+        }
+
+        if (m <= w + newWorkers) {
+            m = newMachines;
+            w += newWorkers;
+        } else {
+            w += newWorkers;
+            m += newMachines;
+        }
+    }
+
+    return passes;
+}
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------- //
