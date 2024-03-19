@@ -3745,3 +3745,46 @@ var searchInsert = function (nums, target) {
 
     return nums.length;
   };
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/3sum/
+
+var threeSum = function(nums) {
+    const sorted = nums.sort((a,b) => a - b)
+    const result = []
+
+    for(let i = 0; i < sorted.length; i++) {
+        if(i > 0 && sorted[i] === sorted[i - 1]) continue; // TO ENSURE WE DONT PICK UP DUPLICATES SUMS
+        const target = sorted[i]
+        let left = i === sorted.length - 1 ? sorted.length - 1 : i + 1
+        let right = sorted.length - 1
+
+        while(left < right) {
+            const threeSum = target + sorted[left] + sorted[right]
+            if (threeSum < 0) { // too small
+                left++
+            } else if (threeSum > 0) { // too big
+                right--
+            } else {
+                result.push([ target, sorted[left], sorted[right] ])
+                left++
+                while(sorted[left] === sorted[left - 1] && left < right) left++ // TO ENSURE WE DONT PICK UP DUPLICATES SUMS
+            }
+        }
+    }
+
+    return result
+};
+
+
+// 1.) SORT input array, then loop through
+    // use current index value (nums[i] as the first number in threeSum). Once we have this pivot, it becomes a twoSum problem
+
+// 2.) Perform second loop. Initialize two pointers. threeSum = (pivot + nums[left] + nums[right])
+    // manipulate pointers depending on if threeSum is too large or too small
+    // if 0 is found, add it to result array
+
+// 3.) two edge cases needed to consider
+    // if the pivot is the same (the condition makes it easy because input arr is sorted), continue since it would just have redundant calculations
+    // when we find a 0, we need to adjust one of the pointers, after adjusting, have a second while loop that ensures that we arent calculating the same pointer value
