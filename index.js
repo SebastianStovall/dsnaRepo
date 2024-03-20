@@ -3815,3 +3815,23 @@ var carFleet = function (target, position, speed) {
 
   return stack.length; // the length of the stack represents the # of car fleets we have by the end of the track
 };
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/contains-duplicate-ii/
+
+var containsNearbyDuplicate = function(nums, k) {
+    const hashMap = {}
+
+    for(let i = 0; i < nums.length; i++) {
+        if(hashMap[nums[i]] === undefined) {
+            hashMap[nums[i]] = i
+        } else {
+            if(Math.abs(hashMap[nums[i]] - i) <= k) return true
+            hashMap[nums[i]] = i
+        }
+    }
+
+    return false
+};
