@@ -3807,7 +3807,7 @@ var carFleet = function (target, position, speed) {
     if (stack.length >= 2) {
       // console.log("COMPARE", stack[stack.length - 1], stack[stack.length - 2]) // ALWAYS COMPARE ADJACENT CAR POSITIONS
       if (stack[stack.length - 1] <= stack[stack.length - 2]) {
-        // if the car ahead intersects with the car thats behind it...
+        // if the car behind intersects (reaches destination faster) with the car thats ahead it...
         stack.pop(); // then pop the car thats behind it since this car will be reduced to the speed thats ahead of it
       }
     }
