@@ -3616,112 +3616,108 @@ function deleteNode(llist, position) {
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
+var orangesRotting = function (grid) {
+  minutes = 0;
+  let totalFreshCount = 0;
 
-var orangesRotting = function(grid) {
+  const queue = [];
 
-    minutes = 0;
-    let totalFreshCount = 0
-
-    const queue = []
-
-    for(let r = 0; r < grid.length; r++) {
-        const row = grid[r]
-        for(let c = 0; c < row.length; c++) {
-            if(grid[r][c] === 1 ) totalFreshCount++
-            if(grid[r][c] === 2 ) queue.push([r,c])
-        }
+  for (let r = 0; r < grid.length; r++) {
+    const row = grid[r];
+    for (let c = 0; c < row.length; c++) {
+      if (grid[r][c] === 1) totalFreshCount++;
+      if (grid[r][c] === 2) queue.push([r, c]);
     }
+  }
 
-    if(totalFreshCount === 0) return 0
+  if (totalFreshCount === 0) return 0;
 
-    while(queue.length >= 1) {
-        const level = queue.length
-        for(let i = 0; i < level; i++) {
-            const [row, col] = queue.shift()
-            const neighbors = getNeighbors(grid, row, col)
-            for(let n of neighbors) {
-                grid[n[0]][n[1]] = 2;
-                totalFreshCount--
-                queue.push(n)
-            }
-
-        }
-        minutes++
+  while (queue.length >= 1) {
+    const level = queue.length;
+    for (let i = 0; i < level; i++) {
+      const [row, col] = queue.shift();
+      const neighbors = getNeighbors(grid, row, col);
+      for (let n of neighbors) {
+        grid[n[0]][n[1]] = 2;
+        totalFreshCount--;
+        queue.push(n);
+      }
     }
+    minutes++;
+  }
 
-    return totalFreshCount === 0 ? minutes - 1 : -1;
+  return totalFreshCount === 0 ? minutes - 1 : -1;
 };
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
-
 function minimumPasses(m, w, p, n) {
-    let candies = 0;
-    let passes = 0;
-    let minPasses = Math.ceil(n / (m * w));
+  let candies = 0;
+  let passes = 0;
+  let minPasses = Math.ceil(n / (m * w));
 
-    while (passes < minPasses) {
-        const passesLeft = minPasses - passes;
-        const candiesPerPass = m * w;
-        const passesNeededForPurchases = Math.ceil((p - candies) / candiesPerPass);
+  while (passes < minPasses) {
+    const passesLeft = minPasses - passes;
+    const candiesPerPass = m * w;
+    const passesNeededForPurchases = Math.ceil((p - candies) / candiesPerPass);
 
-        if (passesLeft >= passesNeededForPurchases) {
-            candies += passesNeededForPurchases * candiesPerPass;
-            passes += passesNeededForPurchases;
-        } else {
-            const remainingCandies = candiesPerPass * passesLeft;
-            candies += remainingCandies;
-            passes += passesLeft;
-            break;
-        }
-
-        const totalCandies = candies + (m * w);
-        const newMachines = Math.floor(totalCandies / p);
-        const newWorkers = Math.floor(totalCandies / p);
-
-        if (newMachines === 0 || newWorkers === 0) {
-            const remainingPasses = Math.ceil((n - candies) / (m * w));
-            passes += remainingPasses;
-            break;
-        }
-
-        if (m <= w + newWorkers) {
-            m = newMachines;
-            w += newWorkers;
-        } else {
-            w += newWorkers;
-            m += newMachines;
-        }
+    if (passesLeft >= passesNeededForPurchases) {
+      candies += passesNeededForPurchases * candiesPerPass;
+      passes += passesNeededForPurchases;
+    } else {
+      const remainingCandies = candiesPerPass * passesLeft;
+      candies += remainingCandies;
+      passes += passesLeft;
+      break;
     }
 
-    return passes;
+    const totalCandies = candies + m * w;
+    const newMachines = Math.floor(totalCandies / p);
+    const newWorkers = Math.floor(totalCandies / p);
+
+    if (newMachines === 0 || newWorkers === 0) {
+      const remainingPasses = Math.ceil((n - candies) / (m * w));
+      passes += remainingPasses;
+      break;
+    }
+
+    if (m <= w + newWorkers) {
+      m = newMachines;
+      w += newWorkers;
+    } else {
+      w += newWorkers;
+      m += newMachines;
+    }
+  }
+
+  return passes;
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 function poisonousPlants(p) {
-    let days = 0;
-    let stack = [];
-    let maxDays = 0;
+  let days = 0;
+  let stack = [];
+  let maxDays = 0;
 
-    for (let i = 0; i < p.length; i++) {
-        let deathDays = 0;
+  for (let i = 0; i < p.length; i++) {
+    let deathDays = 0;
 
-        while (stack.length > 0 && p[i] <= stack[stack.length - 1].pesticide) {
-            deathDays = Math.max(deathDays, stack.pop().days);
-        }
-
-        if (stack.length === 0) {
-            deathDays = 0;
-        } else {
-            deathDays++;
-        }
-
-        maxDays = Math.max(maxDays, deathDays);
-        stack.push({ pesticide: p[i], days: deathDays });
+    while (stack.length > 0 && p[i] <= stack[stack.length - 1].pesticide) {
+      deathDays = Math.max(deathDays, stack.pop().days);
     }
 
-    return maxDays;
+    if (stack.length === 0) {
+      deathDays = 0;
+    } else {
+      deathDays++;
+    }
+
+    maxDays = Math.max(maxDays, deathDays);
+    stack.push({ pesticide: p[i], days: deathDays });
+  }
+
+  return maxDays;
 }
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------ //
@@ -3729,62 +3725,93 @@ function poisonousPlants(p) {
 // https://leetcode.com/problems/search-insert-position/description/
 
 var searchInsert = function (nums, target) {
-    // if on last i in loop and target hasnt been found, return nums.length
-    // if you find a nums[i] that is < target and nums[i + 1] is > than target, return nums[i + 1]
+  // if on last i in loop and target hasnt been found, return nums.length
+  // if you find a nums[i] that is < target and nums[i + 1] is > than target, return nums[i + 1]
 
-    if (nums[0] > target) return 0;
+  if (nums[0] > target) return 0;
 
-    for (let i = 0; i < nums.length; i++) {
-      if (i !== nums.length - 1) {
-        if (nums[i] === target) return i;
-        if (nums[i] < target && nums[i + 1] > target) return i + 1;
-      } else {
-        if (nums[i] === target) return i;
-      }
+  for (let i = 0; i < nums.length; i++) {
+    if (i !== nums.length - 1) {
+      if (nums[i] === target) return i;
+      if (nums[i] < target && nums[i + 1] > target) return i + 1;
+    } else {
+      if (nums[i] === target) return i;
     }
+  }
 
-    return nums.length;
-  };
+  return nums.length;
+};
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // https://leetcode.com/problems/3sum/
 
-var threeSum = function(nums) {
-    const sorted = nums.sort((a,b) => a - b)
-    const result = []
+var threeSum = function (nums) {
+  const sorted = nums.sort((a, b) => a - b);
+  const result = [];
 
-    for(let i = 0; i < sorted.length; i++) {
-        if(i > 0 && sorted[i] === sorted[i - 1]) continue; // TO ENSURE WE DONT PICK UP DUPLICATES SUMS
-        const target = sorted[i]
-        let left = i === sorted.length - 1 ? sorted.length - 1 : i + 1
-        let right = sorted.length - 1
+  for (let i = 0; i < sorted.length; i++) {
+    if (i > 0 && sorted[i] === sorted[i - 1]) continue; // TO ENSURE WE DONT PICK UP DUPLICATES SUMS
+    const target = sorted[i];
+    let left = i === sorted.length - 1 ? sorted.length - 1 : i + 1;
+    let right = sorted.length - 1;
 
-        while(left < right) {
-            const threeSum = target + sorted[left] + sorted[right]
-            if (threeSum < 0) { // too small
-                left++
-            } else if (threeSum > 0) { // too big
-                right--
-            } else {
-                result.push([ target, sorted[left], sorted[right] ])
-                left++
-                while(sorted[left] === sorted[left - 1] && left < right) left++ // TO ENSURE WE DONT PICK UP DUPLICATES SUMS
-            }
-        }
+    while (left < right) {
+      const threeSum = target + sorted[left] + sorted[right];
+      if (threeSum < 0) {
+        // too small
+        left++;
+      } else if (threeSum > 0) {
+        // too big
+        right--;
+      } else {
+        result.push([target, sorted[left], sorted[right]]);
+        left++;
+        while (sorted[left] === sorted[left - 1] && left < right) left++; // TO ENSURE WE DONT PICK UP DUPLICATES SUMS
+      }
     }
+  }
 
-    return result
+  return result;
 };
 
-
 // 1.) SORT input array, then loop through
-    // use current index value (nums[i] as the first number in threeSum). Once we have this pivot, it becomes a twoSum problem
+// use current index value (nums[i] as the first number in threeSum). Once we have this pivot, it becomes a twoSum problem
 
 // 2.) Perform second loop. Initialize two pointers. threeSum = (pivot + nums[left] + nums[right])
-    // manipulate pointers depending on if threeSum is too large or too small
-    // if 0 is found, add it to result array
+// manipulate pointers depending on if threeSum is too large or too small
+// if 0 is found, add it to result array
 
 // 3.) two edge cases needed to consider
-    // if the pivot is the same (the condition makes it easy because input arr is sorted), continue since it would just have redundant calculations
-    // when we find a 0, we need to adjust one of the pointers, after adjusting, have a second while loop that ensures that we arent calculating the same pointer value
+// if the pivot is the same (the condition makes it easy because input arr is sorted), continue since it would just have redundant calculations
+// when we find a 0, we need to adjust one of the pointers, after adjusting, have a second while loop that ensures that we arent calculating the same pointer value
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/car-fleet/
+
+var carFleet = function (target, position, speed) {
+  const posAndSpeed = []; // COMBINE position and speed array
+  for (let i = 0; i < position.length; i++) {
+    posAndSpeed.push([position[i], speed[i]]);
+  }
+
+  const sorted = posAndSpeed.sort((a, b) => a[0] - b[0]); // sort cars based on position
+  const stack = [];
+
+  for (let i = sorted.length - 1; i >= 0; i--) {
+    const pos = sorted[i][0];
+    const speed = sorted[i][1];
+    stack.push((target - pos) / speed); // append time (steps) it takes for this car to reach destination
+
+    if (stack.length >= 2) {
+      // console.log("COMPARE", stack[stack.length - 1], stack[stack.length - 2]) // ALWAYS COMPARE ADJACENT CAR POSITIONS
+      if (stack[stack.length - 1] <= stack[stack.length - 2]) {
+        // if the car ahead intersects with the car thats behind it...
+        stack.pop(); // then pop the car thats behind it since this car will be reduced to the speed thats ahead of it
+      }
+    }
+  }
+
+  return stack.length; // the length of the stack represents the # of car fleets we have by the end of the track
+};
