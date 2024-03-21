@@ -3816,22 +3816,43 @@ var carFleet = function (target, position, speed) {
   return stack.length; // the length of the stack represents the # of car fleets we have by the end of the track
 };
 
-
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 // https://leetcode.com/problems/contains-duplicate-ii/
 
-var containsNearbyDuplicate = function(nums, k) {
-    const hashMap = {}
+var containsNearbyDuplicate = function (nums, k) {
+  const hashMap = {};
 
-    for(let i = 0; i < nums.length; i++) {
-        if(hashMap[nums[i]] === undefined) {
-            hashMap[nums[i]] = i
-        } else {
-            if(Math.abs(hashMap[nums[i]] - i) <= k) return true
-            hashMap[nums[i]] = i
-        }
+  for (let i = 0; i < nums.length; i++) {
+    if (hashMap[nums[i]] === undefined) {
+      hashMap[nums[i]] = i;
+    } else {
+      if (Math.abs(hashMap[nums[i]] - i) <= k) return true;
+      hashMap[nums[i]] = i;
     }
+  }
 
-    return false
+  return false;
+};
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/binary-search/
+
+var search = function (nums, target) {
+  let left = 0;
+  let right = nums.length - 1;
+
+  while (left <= right) {
+    const midpoint = Math.floor((left + right) / 2);
+    if (nums[midpoint] === target) {
+      return midpoint;
+    } else if (nums[midpoint] > target) {
+      right = midpoint - 1;
+    } else if (nums[midpoint] < target) {
+      left = midpoint + 1;
+    }
+  }
+
+  return -1;
 };
