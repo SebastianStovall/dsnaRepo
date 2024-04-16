@@ -3915,3 +3915,26 @@ var findKthLargest = function(nums, k) {
 };
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+// https://leetcode.com/problems/find-k-closest-elements/
+
+var findClosestElements = function(arr, k, x) {
+  // Greedily select the k closest elements
+
+  let low = 0;
+  let high = arr.length - 1;
+  while(high - low + 1 > k) { // range for k will never be greater since the left and right bounds always start with taking THE ENTIRE input array
+
+      // Remove the element that is farther from x based on the ( |a - x| < |b - x| OR |a - x| == |b - x| and a < b conditions )
+      if (x - arr[low] <= arr[high] - x) {
+          high--;
+      } else {
+          low++;
+      }
+  }
+
+  return arr.slice(low, high + 1); // return the closest range found from the greedy
+};
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------- //
