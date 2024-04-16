@@ -3938,3 +3938,28 @@ var findClosestElements = function(arr, k, x) {
 
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+// https://leetcode.com/problems/longest-substring-without-repeating-characters/
+
+var lengthOfLongestSubstring = function(s) {
+  if(s.length === 0) return 0
+
+  let hashmap = {}
+  let left = 0 // start sliding window at the start of the array
+  let result = 1 // start with first character
+
+  for(let i = 0; i < s.length; i++) {
+      const char = s[i]
+
+      // if a repeating character was found (found after it was in our hashmap)
+      if(hashmap[char] !== undefined && hashmap[char] >= left) {
+          left = hashmap[char] + 1 // update LEFT POINTER to repeating character's index + 1
+      }
+
+      hashmap[char] = i // always have the latest information on the index of when each character was last seen
+      result = Math.max(result, i - left + 1); // RANGE OF VALID SUBSTRING (indexed)
+  }
+
+  return result
+};
