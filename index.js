@@ -3963,3 +3963,47 @@ var lengthOfLongestSubstring = function(s) {
 
   return result
 };
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+var characterReplacement = function(s, k) {
+  // Nested Loop, Loop for each unique char in the string
+  // when you run out of swaps:
+  // 1.) check max substring length
+  // 2.) LEFT pointer for window becomes first index of the character where the key doesnt match + one index shifted over
+  // ** Restart left and numSwap variables for each new incoming character
+
+  let result = 0
+  let hashmap = {}
+
+  for(let num of s) {
+      if(hashmap[num] === undefined) {
+          hashmap[num] = num
+      }
+  }
+
+  for(let key in hashmap) {
+      let left = 0
+      let numSwaps = k
+      for(let right = 0; right < s.length; right ++) {
+          if(s[right] !== key) {
+              numSwaps--
+          }
+
+          if(numSwaps <= -1) {
+              result = Math.max(result, (right - 1) - (left + 1))
+              while(s[left] === key) {
+                  left++
+              }
+              left = left + 1
+              numSwaps++
+          } else {
+              result = Math.max(result, right - left + 1 )
+          }
+      }
+  }
+
+  return result
+
+};
