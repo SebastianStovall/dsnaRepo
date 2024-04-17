@@ -3967,6 +3967,8 @@ var lengthOfLongestSubstring = function(s) {
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
+// https://leetcode.com/problems/longest-repeating-character-replacement/
+
 var characterReplacement = function(s, k) {
   // Nested Loop, Loop for each unique char in the string
   // when you run out of swaps:
@@ -4007,3 +4009,6 @@ var characterReplacement = function(s, k) {
   return result
 
 };
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
