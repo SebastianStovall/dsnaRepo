@@ -4032,3 +4032,29 @@ function goodNodes(root) {
   dfs(root, -Infinity);
   return count;
 }
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+function minDeletions(s) {
+  const freqMap = new Map();
+  let deletions = 0;
+  const seenFreqs = new Set();
+
+  for (const char of s) {
+      freqMap.set(char, (freqMap.get(char) || 0) + 1);
+  }
+
+  for (const freq of freqMap.values()) {
+      while (seenFreqs.has(freq)) {
+          deletions++;
+          freq--;
+      }
+      if (freq > 0) {
+          seenFreqs.add(freq);
+      }
+  }
+
+  return deletions;
+}
