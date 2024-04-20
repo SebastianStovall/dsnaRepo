@@ -4058,3 +4058,28 @@ function minDeletions(s) {
 
   return deletions;
 }
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function minRefuelStops(target, startFuel, stations) {
+  let stops = 0;
+  let currentPos = startFuel;
+  const pq = []; // Priority queue to store stations
+
+  for (const station of stations) {
+      while (pq.length && currentPos < station[0]) {
+          currentPos += pq.pop();
+          stops++;
+      }
+      if (currentPos >= target) return stops;
+      pq.push(station[1]);
+  }
+
+  while (pq.length && currentPos < target) {
+      currentPos += pq.pop();
+      stops++;
+  }
+
+  return currentPos >= target ? stops : -1;
+}
